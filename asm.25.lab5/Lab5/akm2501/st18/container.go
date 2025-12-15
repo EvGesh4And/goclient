@@ -6,196 +6,218 @@ import (
 	"strings"
 )
 
-type GroupContainer struct {
+type CardIndex struct {
 	io      *ConsoleIO
 	storage *RestStorage
 }
 
-func NewGroupContainer(io *ConsoleIO, storage *RestStorage) *GroupContainer {
-	return &GroupContainer{io: io, storage: storage}
+func NewCardIndex(io *ConsoleIO, storage *RestStorage) *CardIndex {
+	return &CardIndex{io: io, storage: storage}
 }
 
-func (c *GroupContainer) AddItem() {
-	fmt.Println("\nВыберите тип сотрудника:")
-	fmt.Println("1. Worker\n2. Manager\n3. Director")
-
-	choice := c.io.inputString("Ваш выбор (1/2/3): ")
-	empData := make(map[string]interface{})
-	empData["name"] = ""
-	empData["age"] = 0
-
+func (c *CardIndex) AddItem() {
+	fmt.Println("\nВыберите тип элемента:")
+	fmt.Println("1. Student (Студент)")
+	fmt.Println("2. Employee (Сотрудник)")
+	
+	choice := c.io.inputString("Ваш выбор (1/2): ")
+	itemData := make(map[string]interface{})
+	
 	switch choice {
 	case "1":
-		empData["type"] = "Worker"
-		c.io.ReadField(empData, "name")
-		c.io.ReadField(empData, "age")
-		c.io.ReadField(empData, "department")
+		itemData["type"] = "student"
+		c.io.ReadField(itemData, "name")
+		c.io.ReadField(itemData, "age")
+		c.io.ReadField(itemData, "group_name")
 	case "2":
-		empData["type"] = "Manager"
-		c.io.ReadField(empData, "name")
-		c.io.ReadField(empData, "age")
-		c.io.ReadField(empData, "team_size")
-	case "3":
-		empData["type"] = "Director"
-		c.io.ReadField(empData, "name")
-		c.io.ReadField(empData, "age")
-		c.io.ReadField(empData, "has_company_car")
+		itemData["type"] = "employee"
+		c.io.ReadField(itemData, "name")
+		c.io.ReadField(itemData, "position")
 	default:
 		fmt.Println("Неизвестный тип.")
 		return
 	}
-
-	employee, err := c.storage.Add(empData)
+	
+	newID, err := c.storage.Add(itemData)
 	if err != nil {
-		fmt.Printf("Ошибка создания: %v\n", err)
+		fmt.Printf("Ошибка добавления: %v\n", err)
 		return
 	}
-	fmt.Println("\n✓ Добавлено.")
-	c.printEmployee(employee, 0)
+	fmt.Printf("\n✓ Элемент добавлен с ID: %d\n", newID)
 }
 
-func (c *GroupContainer) ListItems() {
-	employees, err := c.storage.ListItems()
+func (c *CardIndex) ListItems() {
+	items, err := c.storage.ListItems()
 	if err != nil {
 		fmt.Printf("Ошибка получения списка: %v\n", err)
 		return
 	}
-	if len(employees) == 0 {
-		fmt.Println("Список пуст.")
+	if len(items) == 0 {
+		fmt.Println("\nКартотека пуста.")
 		return
 	}
-	for i, emp := range employees {
-		c.printEmployee(emp, i+1)
+	
+	fmt.Println("\n========== КАРТОТЕКА ==========")
+	for i, item := range items {
+		c.printItem(item, i+1)
 	}
+	fmt.Println("================================")
 }
 
-func (c *GroupContainer) printEmployee(emp map[string]interface{}, index int) {
-	if index > 0 {
-		fmt.Printf("\n--- [%d] ---\n", index)
+func (c *CardIndex) printItem(item map[string]interface{}, index int) {
+	fmt.Printf("\n[%d] ", index)
+	
+	if id, ok := item["id"].(float64); ok {
+		fmt.Printf("ID: %.0f", id)
 	}
-	if id, ok := emp["id"].(float64); ok {
-		fmt.Printf("ID: %.0f\n", id)
+	
+	if typeName, ok := item["type"].(string); ok {
+		if typeName == "student" {
+			fmt.Print(" | Студент")
+		} else if typeName == "employee" {
+			fmt.Print(" | Сотрудник")
+		}
 	}
-	if typeName, ok := emp["type"].(string); ok {
-		fmt.Printf("Тип: %s\n", typeName)
+	fmt.Println()
+	
+	// Определяем поля для вывода в зависимости от типа
+	typeName, _ := item["type"].(string)
+	var fields []string
+	
+	if typeName == "student" {
+		fields = []string{"name", "age", "group_name"}
+	} else if typeName == "employee" {
+		fields = []string{"name", "position"}
+	} else {
+		fields = []string{"name"}
 	}
-
-	fields := []string{"name", "age"}
-	typeName, _ := emp["type"].(string)
-	switch typeName {
-	case "Worker":
-		fields = append(fields, "department")
-	case "Manager":
-		fields = append(fields, "team_size")
-	case "Director":
-		fields = append(fields, "has_company_car")
-	}
-
+	
 	for _, field := range fields {
-		if _, ok := emp[field]; ok {
-			c.io.WriteField(emp, field)
+		if _, ok := item[field]; ok {
+			c.io.WriteField(item, field)
 		}
 	}
 	fmt.Println("---")
 }
 
-func (c *GroupContainer) selectIndex() (int, map[string]interface{}) {
+func (c *CardIndex) selectIndex() (int, map[string]interface{}) {
 	c.ListItems()
-	raw := c.io.inputString("\nНомер объекта: ")
+	raw := c.io.inputString("\nВведите номер элемента: ")
 	idx, err := strconv.Atoi(raw)
 	if err != nil {
 		fmt.Println("Неверный номер.")
 		return -1, nil
 	}
-
-	employees, err := c.storage.ListItems()
+	
+	items, err := c.storage.ListItems()
 	if err != nil {
+		fmt.Printf("Ошибка: %v\n", err)
 		return -1, nil
 	}
-
-	if idx < 1 || idx > len(employees) {
-		fmt.Println("Неверный диапазон.")
+	
+	if idx < 1 || idx > len(items) {
+		fmt.Println("Номер вне диапазона.")
 		return -1, nil
 	}
-
-	emp := employees[idx-1]
+	
+	item := items[idx-1]
 	var itemID int
-	if id, ok := emp["id"].(float64); ok {
+	if id, ok := item["id"].(float64); ok {
 		itemID = int(id)
 	}
-	return itemID, emp
+	return itemID, item
 }
 
-func (c *GroupContainer) EditItem() {
-	itemID, emp := c.selectIndex()
+func (c *CardIndex) EditItem() {
+	itemID, item := c.selectIndex()
 	if itemID < 0 {
 		return
 	}
-
-	typeName, _ := emp["type"].(string)
-	fmt.Printf("\nРедактирование сотрудника: %s (ID: %d)\n", typeName, itemID)
-
-	fields := []string{"name", "age"}
-	switch typeName {
-	case "Worker":
-		fields = append(fields, "department")
-	case "Manager":
-		fields = append(fields, "team_size")
-	case "Director":
-		fields = append(fields, "has_company_car")
+	
+	typeName, _ := item["type"].(string)
+	fmt.Printf("\nРедактирование элемента (ID: %d)\n", itemID)
+	
+	// Определяем доступные поля для редактирования
+	var fields []string
+	if typeName == "student" {
+		fields = []string{"name", "age", "group_name"}
+	} else if typeName == "employee" {
+		fields = []string{"name", "position"}
 	}
-
+	
 	fmt.Println("Доступные поля:")
 	for i, field := range fields {
 		fmt.Printf("%d. %s\n", i+1, c.io.label(field))
 	}
-
-	fieldChoice := c.io.inputString("Выберите поле для редактирования (1/2/3): ")
+	
+	fieldChoice := c.io.inputString("Выберите поле для редактирования: ")
 	fieldIdx, err := strconv.Atoi(fieldChoice)
 	if err != nil || fieldIdx < 1 || fieldIdx > len(fields) {
-		fmt.Println("Нет такого поля.")
+		fmt.Println("Неверный выбор.")
 		return
 	}
-
+	
 	field := fields[fieldIdx-1]
-	updates := make(map[string]interface{})
-	c.io.ReadField(updates, field)
-
-	err = c.storage.Patch(itemID, updates)
+	
+	// Считываем текущие значения всех полей
+	updatedData := make(map[string]interface{})
+	updatedData["type"] = typeName
+	
+	// Копируем все существующие поля
+	for _, f := range fields {
+		if val, ok := item[f]; ok {
+			updatedData[f] = val
+		}
+	}
+	
+	// Обновляем выбранное поле
+	c.io.ReadField(updatedData, field)
+	
+	err = c.storage.Update(itemID, updatedData)
 	if err != nil {
 		fmt.Printf("Ошибка обновления: %v\n", err)
 		return
 	}
-	fmt.Println("✓ Изменено.")
+	fmt.Println("✓ Элемент успешно обновлён.")
 }
 
-func (c *GroupContainer) RemoveItem() {
-	itemID, emp := c.selectIndex()
+func (c *CardIndex) RemoveItem() {
+	itemID, item := c.selectIndex()
 	if itemID < 0 {
 		return
 	}
-
+	
+	confirm := c.io.inputString("\nВы уверены? (да/нет): ")
+	if !strings.HasPrefix(strings.ToLower(confirm), "д") && !strings.HasPrefix(strings.ToLower(confirm), "y") {
+		fmt.Println("Отменено")
+		return
+	}
+	
 	err := c.storage.Remove(itemID)
 	if err != nil {
 		fmt.Printf("Ошибка удаления: %v\n", err)
 		return
 	}
-
-	typeName, _ := emp["type"].(string)
-	fmt.Printf("✓ Удалён %s.\n", typeName)
+	
+	name := "Элемент"
+	if n, ok := item["name"].(string); ok && n != "" {
+		name = n
+	}
+	fmt.Printf("✓ Удалён: %s (ID: %d)\n", name, itemID)
 }
 
-func (c *GroupContainer) Clear() {
-	confirm := c.io.inputString("\nВы уверены? Это удалит всех сотрудников (да/нет): ")
+func (c *CardIndex) Clear() {
+	confirm := c.io.inputString("\nВы уверены? Это удалит ВСЕ элементы из картотеки! (да/нет): ")
 	if !strings.HasPrefix(strings.ToLower(confirm), "д") && !strings.HasPrefix(strings.ToLower(confirm), "y") {
 		fmt.Println("Отменено")
 		return
 	}
-
-	count, err := c.storage.Clear()
+	
+	err := c.storage.Clear()
 	if err != nil {
 		fmt.Printf("Ошибка очистки: %v\n", err)
 		return
 	}
-	fmt.Printf("✓ Список очищен. Удалено: %d\n", count)
+	fmt.Println("✓ Картотека полностью очищена.")
 }
+

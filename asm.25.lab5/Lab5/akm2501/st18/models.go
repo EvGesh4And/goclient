@@ -1,9 +1,19 @@
 package akm250118
 
-type EmployeeListResponse struct {
-	Employees []map[string]interface{} `json:"employees"`
+type ItemsResponse struct {
+	Items []map[string]interface{} `json:"items"`
 }
 
-type ClearResponse struct {
-	Removed int `json:"removed"`
+type AddResponse struct {
+	ID      int    `json:"id"`
+	Message string `json:"message"`
 }
+
+type UpdateResponse struct {
+	Message string `json:"message"`
+}
+
+type DeleteResponse struct {
+	Message string `json:"message"`
+}
+

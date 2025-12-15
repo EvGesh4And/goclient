@@ -3,7 +3,7 @@ package akm250118
 import "fmt"
 
 func Main() {
-	fmt.Println("Картотека сотрудников (Worker / Manager / Director)")
+	fmt.Println("Картотека (Student / Employee)")
 	fmt.Println("Подключение к серверу...")
 
 	io := NewConsoleIO()
@@ -14,21 +14,21 @@ func Main() {
 	}
 	fmt.Printf("Маршрут: %s\n", storage.Prefix)
 
-	container := NewGroupContainer(io, storage)
+	container := NewCardIndex(io, storage)
 
 	for {
 		fmt.Println("\n--- Меню ---")
-		fmt.Println(" 1. Добавить объект")
-		fmt.Println(" 2. Редактировать объект")
-		fmt.Println(" 3. Удалить объект")
-		fmt.Println(" 4. Вывести весь список")
-		fmt.Println(" 5. Очистить список")
+		fmt.Println(" 1. Добавить элемент")
+		fmt.Println(" 2. Редактировать элемент")
+		fmt.Println(" 3. Удалить элемент")
+		fmt.Println(" 4. Показать все элементы")
+		fmt.Println(" 5. Очистить картотеку")
 		fmt.Println(" 0. Выход")
 
 		choice := io.inputString("\nВаш выбор: ")
 		switch choice {
 		case "0":
-			fmt.Println("Пока!")
+			fmt.Println("До свидания!")
 			return
 		case "1":
 			container.AddItem()
@@ -41,7 +41,8 @@ func Main() {
 		case "5":
 			container.Clear()
 		default:
-			fmt.Println("Нет такого пункта.")
+			fmt.Println("Неизвестный пункт меню.")
 		}
 	}
 }
+

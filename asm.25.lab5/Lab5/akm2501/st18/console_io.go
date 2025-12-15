@@ -17,11 +17,10 @@ func NewConsoleIO() *ConsoleIO {
 }
 
 var fieldLabels = map[string]string{
-	"name":            "Имя",
-	"age":             "Возраст",
-	"department":      "Отдел",
-	"team_size":       "Размер команды",
-	"has_company_car": "Служебный автомобиль",
+	"name":       "Имя",
+	"age":        "Возраст",
+	"group_name": "Группа",
+	"position":   "Должность",
 }
 
 func (io *ConsoleIO) label(fieldName string) string {
@@ -35,9 +34,6 @@ func (io *ConsoleIO) convert(text string, fieldType string) interface{} {
 	text = strings.TrimSpace(text)
 
 	switch fieldType {
-	case "bool":
-		t := strings.ToLower(text)
-		return t == "да" || t == "д" || t == "yes" || t == "y" || t == "true" || t == "1"
 	case "int":
 		if val, err := strconv.Atoi(text); err == nil {
 			return val
@@ -53,15 +49,12 @@ func (io *ConsoleIO) formatValue(value interface{}) string {
 		return "—"
 	}
 	switch v := value.(type) {
-	case bool:
-		if v {
-			return "да"
-		}
-		return "нет"
 	case string:
 		if v == "" {
 			return "—"
 		}
+	case float64:
+		return fmt.Sprintf("%.0f", v)
 	}
 	return fmt.Sprintf("%v", value)
 }
@@ -72,33 +65,26 @@ func (io *ConsoleIO) inputString(prompt string) string {
 	return strings.TrimSpace(text)
 }
 
-func (io *ConsoleIO) ReadField(emp map[string]interface{}, fieldName string) {
+func (io *ConsoleIO) ReadField(item map[string]interface{}, fieldName string) {
 	label := io.label(fieldName)
 
 	var fieldType string
 	switch fieldName {
-	case "name", "department":
+	case "name", "group_name", "position":
 		fieldType = "string"
-	case "age", "team_size":
+	case "age":
 		fieldType = "int"
-	case "has_company_car":
-		fieldType = "bool"
 	}
 
-	var prompt string
-	if fieldType == "bool" {
-		prompt = fmt.Sprintf("%s (да/нет): ", label)
-	} else {
-		prompt = fmt.Sprintf("Введите %s: ", label)
-	}
-
+	prompt := fmt.Sprintf("Введите %s: ", label)
 	text := io.inputString(prompt)
 	value := io.convert(text, fieldType)
-	emp[fieldName] = value
+	item[fieldName] = value
 }
 
-func (io *ConsoleIO) WriteField(emp map[string]interface{}, fieldName string) {
+func (io *ConsoleIO) WriteField(item map[string]interface{}, fieldName string) {
 	label := io.label(fieldName)
-	value := emp[fieldName]
+	value := item[fieldName]
 	fmt.Printf("%s: %s\n", label, io.formatValue(value))
 }
+
