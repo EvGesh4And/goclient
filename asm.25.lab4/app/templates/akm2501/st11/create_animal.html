@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Добавить животное</title>
+</head>
+<body>
+    <h1>{{ title or "Картотека животных" }}</h1>
+    {% if author %}
+        <h2>Автор: {{ author }}</h2>
+    {% endif %}
+
+    <h3>Добавить животное</h3>
+
+    <form method="POST">
+        <p>
+            <strong>Тип животного:</strong><br>
+            <select name="animal_type" required>
+                <option value="">-- Выберите тип --</option>
+                <option value="animal">Обычное животное</option>
+                <option value="predator">Хищник</option>
+                <option value="herbivore">Травоядное</option>
+            </select>
+        </p>
+
+        <p>
+            <strong>Название:</strong><br>
+            <input type="text" name="species" required>
+        </p>
+
+        <p>
+            <strong>Среда обитания:</strong><br>
+            <input type="text" name="habitat" required>
+        </p>
+
+        <p>
+            <strong>Поведение:</strong><br>
+            <input type="text" name="behavior" required>
+        </p>
+
+        <p>
+            <strong>Стиль охоты (для хищников):</strong><br>
+            <input type="text" name="hunting_style">
+        </p>
+
+        <p>
+            <strong>Любимое растение (для травоядных):</strong><br>
+            <input type="text" name="favorite_plant">
+        </p>
+
+        <button type="submit">Добавить животное</button>
+    </form>
+
+    <p>
+        <a href="{{ url_for('st0111.index') }}">На главную</a> | 
+        <a href="{{ url_for('st0111.show_animals') }}">К списку животных</a>
+    </p>
+</body>
+</html>

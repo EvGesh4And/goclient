@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Картотека — веб</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    .flash { padding:8px; margin-bottom:12px; background:#eef; border:1px solid #99c; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { padding:6px 8px; border:1px solid #ddd; text-align:left; }
+    form.inline { display:inline; }
+  </style>
+</head>
+<body>
+  <h1>Картотека камер/объективов — ꧁⎝ Aidar ⎠꧂</h1>
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for m in messages %}
+        <div class="flash">{{ m }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+</body>
+</html>

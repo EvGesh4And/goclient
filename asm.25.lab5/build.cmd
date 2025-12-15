@@ -1,0 +1,1 @@
+go build Lab5/lab5.go

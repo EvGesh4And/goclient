@@ -1,0 +1,19 @@
+{% extends "asm2504/st09/base.html" %}
+{% block content %}
+<h2>Добавить сотрудника</h2>
+
+<form method="post">
+  <label>Тип сотрудника:</label><br>
+  <select name="type" onchange="location.href='?type=' + this.value">
+    <option value="Worker" {% if emp_type == 'Worker' %}selected{% endif %}>Рабочий</option>
+    <option value="Manager" {% if emp_type == 'Manager' %}selected{% endif %}>Менеджер</option>
+    <option value="Director" {% if emp_type == 'Director' %}selected{% endif %}>Директор</option>
+  </select>
+
+  <br><br>
+  {{ form_fields | safe }}
+
+  <button type="submit" name="save">Сохранить</button>
+  <a href="{{ url_for('st0409.main') }}">Назад</a>
+</form>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "asm2504/st09/base.html" %}
+
+{% block title %}Список сотрудников{% endblock %}
+
+{% block content %}
+<div class="top-actions">
+  <a href="{{ url_for('st0409.add_employee') }}">Добавить сотрудника</a>
+
+  <form method="post" action="{{ url_for('st0409.clear_all') }}" style="display:inline;">
+    <button type="submit" onclick="return confirm('Удалить все записи?')">Очистить всё</button>
+  </form>
+
+  <!-- 💾 Выгрузка (скачать employees.pkl) -->
+  <form method="get" action="{{ url_for('st0409.download_file') }}" style="display:inline; margin-left:10px;">
+    <button type="submit">💾 Выгрузить в файл</button>
+  </form>
+
+  <!-- 📂 Загрузка (загрузить свой .pkl) -->
+  <form method="post" action="{{ url_for('st0409.upload_file') }}" enctype="multipart/form-data" style="display:inline; margin-left:10px;">
+    <input type="file" name="file" accept=".pkl" required>
+    <button type="submit">📂 Загрузить из файла</button>
+  </form>
+</div>
+
+<hr>
+
+{% if employees %}
+  {% for e in employees %}
+    <div class="card">
+      <h3>Сотрудник {{ loop.index }} — {{ e.name }} ({{ e.type }})</h3>
+
+      <div class="display-content">
+        {{ e.display_html | safe }}
+      </div>
+
+      <div class="actions">
+        <a href="{{ url_for('st0409.edit_employee', emp_id=e.db_id) }}">Редактировать</a>
+
+        <form method="post" action="{{ url_for('st0409.delete_employee', emp_id=e.db_id) }}" style="display:inline;">
+          <button type="submit" onclick="return confirm('Удалить запись?')">Удалить</button>
+        </form>
+      </div>
+    </div>
+  {% endfor %}
+{% else %}
+  <p>Список сотрудников пуст.</p>
+{% endif %}
+{% endblock %}

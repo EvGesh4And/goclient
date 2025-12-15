@@ -1,0 +1,57 @@
+{% extends "asm2504/st01/base.html" %}
+{% block title %}Список записей{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2>Картотека записей</h2>
+  <a href="{{ url_for('st0401.add_type') }}" class="btn btn-primary">
+    + Добавить
+  </a>
+</div>
+
+{% if entities %}
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    {% for ent in entities %}
+    <div class="col">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">{{ type_names[ent.type] }}</h5>
+          <p class="card-text"><strong>ФИО:</strong> {{ ent.name }}</p>
+          <p class="card-text"><strong>Возраст:</strong> {{ ent.age }}</p>
+          {% if ent.group_role %}
+            <p class="card-text"><strong>Роль:</strong> {{ ent.group_role }}</p>
+          {% endif %}
+          {% if ent.union_activity %}
+            <p class="card-text"><strong>Профсоюз:</strong> {{ ent.union_activity }}</p>
+          {% endif %}
+        </div>
+        <div class="card-footer bg-transparent d-flex gap-2">
+          <a href="{{ url_for('st0401.edit', entity_id=ent.id) }}" class="btn btn-sm btn-outline-primary">
+            Редактировать
+          </a>
+          <a href="{{ url_for('st0401.delete', entity_id=ent.id) }}" 
+             class="btn btn-sm btn-outline-danger"
+             onclick="return confirm('Удалить запись?')">
+            Удалить
+          </a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="mt-4 text-end">
+    <a href="{{ url_for('st0401.clear') }}" class="btn btn-danger"
+       onclick="return confirm('Очистить всю картотеку?')">
+      Очистить всё
+    </a>
+  </div>
+{% else %}
+  <div class="text-center py-5">
+    <p class="text-muted">Список пуст.</p>
+    <a href="{{ url_for('st0401.add_type') }}" class="btn btn-primary">
+      Добавить первую запись
+    </a>
+  </div>
+{% endif %}
+{% endblock %}

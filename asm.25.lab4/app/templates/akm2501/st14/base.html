@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Картотека сотрудников</title>
+</head>
+<body>
+    <h1>Картотека сотрудников</h1>
+    <p>
+        <a href="{{ url_for('st0114.main') }}">Главная</a> |
+        <a href="{{ url_for('st0114.list_items') }}">Список</a> |
+        <a href="{{ url_for('st0114.add_choose') }}">Добавить</a> |
+        <a href="{{ url_for('st0114.save_items') }}">Сохранить</a> |
+        <a href="{{ url_for('st0114.clear_items') }}">Очистить</a>
+    </p>
+    <hr>
+    {% block content %}{% endblock %}
+</body>
+</html>
+

@@ -1,0 +1,33 @@
+{% extends "asm2504/st23/base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="form-card">
+    <h2 class="form-title">{{ title }}</h2>
+    <form method="POST">
+        <div class="form-group">
+            <label class="form-label">Выберите файл для загрузки:</label>
+            <select class="form-select" name="filename" required>
+                <option value="">Выберите файл...</option>
+                {% for file in available_files %}
+                <option value="{{ file }}">{{ file }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        {% if not available_files %}
+        <div class="alert alert-warning">
+            Нет доступных .pkl файлов для загрузки.
+        </div>
+        {% endif %}
+
+        <div class="form-group" style="display: flex; gap: 1rem; margin-top: 2rem;">
+            <button type="submit" class="action-btn" style="flex: 1;" {% if not available_files %}disabled{% endif %}>
+                Загрузить
+            </button>
+            <a href="{{ url_for('bp.index') }}" class="action-btn secondary" style="flex: 1; text-align: center;">Отмена</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

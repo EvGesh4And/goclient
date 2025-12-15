@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Инвестиционный портфель</title>
+</head>
+<body>
+    <h1>Инвестиционный портфель</h1>
+
+    {% if message %}
+    <div style="background-color: #dff0d8; color: #3c763d; padding: 10px; margin: 10px 0; border: 1px solid #d6e9c6;">
+        {{ message }}
+    </div>
+    {% endif %}
+
+    {% if error %}
+    <div style="background-color: #f2dede; color: #a94442; padding: 10px; margin: 10px 0; border: 1px solid #ebccd1;">
+        {{ error }}
+    </div>
+    {% endif %}
+
+    <div>
+        <p><strong>Всего активов:</strong> {{ assets_count }}</p>
+        <p><strong>Общая стоимость:</strong> {{ "%.2f"|format(total_value) }}</p>
+    </div>
+
+    <div style="margin: 20px 0;">
+        <a href="{{ url_for('st29.add_asset') }}" style="padding: 5px 10px; background-color: #4CAF50; color: white; text-decoration: none;">Добавить актив</a>
+        <a href="{{ url_for('st29.export_data') }}" style="padding: 5px 10px; background-color: #4CAF50; color: white; text-decoration: none;">Экспорт в файл</a>
+        <a href="{{ url_for('st29.import_data') }}" style="padding: 5px 10px; background-color: #4CAF50; color: white; text-decoration: none;">Импорт из файла</a>
+        <a href="{{ url_for('st29.clear_all') }}" style="padding: 5px 10px; background-color: #dc3545; color: white; text-decoration: none;" onclick="return confirm('Очистить весь портфель?')">Очистить портфель</a>
+    </div>
+
+    <table border="1" cellpadding="8" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Тип</th>
+                <th>Название</th>
+                <th>Цена</th>
+                <th>Валюта</th>
+                <th>Доп. информация</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for asset in assets %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ asset.get_type() }}</td>
+                <td>{{ asset.name }}</td>
+                <td>{{ "%.2f"|format(asset.price) }}</td>
+                <td>{{ asset.currency }}</td>
+                <td>
+                    {% if asset.get_type() == "Акция" %}
+                        Дивиденды: {{ "%.2f"|format(asset.dividend_yield) }}%
+                    {% elif asset.get_type() == "Облигация" %}
+                        Купон: {{ "%.2f"|format(asset.coupon_rate) }}%,
+                        Срок: {{ asset.maturity_years }} лет
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ url_for('st29.edit_asset', index=loop.index0) }}" style="padding: 3px 6px; background-color: #4CAF50; color: white; text-decoration: none;">Редактировать</a>
+                    <a href="{{ url_for('st29.delete_asset', index=loop.index0) }}" style="padding: 3px 6px; background-color: #dc3545; color: white; text-decoration: none;" onclick="return confirm('Удалить актив?')">Удалить</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

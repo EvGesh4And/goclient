@@ -1,0 +1,35 @@
+{% extends "asm2504/st24/base.html" %}
+
+{% block title %}Список сотрудников{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Список Сотрудников</h1>
+        {% if not employees %}
+            <div class="alert alert-warning">Нет сотрудников.</div>
+        {% else %}
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                {% for emp in employees %}
+                    <div class="col">
+                        <div class="card employee-card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ emp.type }} (ID: {{ emp.id }})</h5>
+                                <p class="card-text">
+                                    Имя: {{ emp.name }}<br>
+                                    Возраст: {{ emp.age }}<br>
+                                    {% if emp.department %} Отдел: {{ emp.department }}<br> {% endif %}
+                                    {% if emp.title %} Должность: {{ emp.title }}<br> {% endif %}
+                                </p>
+                            </div>
+                            <div class="btn-container text-center p-2">
+                                <a href="{{ url_for('st24.edit_employee', emp_id=emp.id) }}" class="btn btn-warning me-2">Редактировать</a>
+                                <a href="{{ url_for('st24.delete_employee', emp_id=emp.id) }}" class="btn btn-danger">Удалить</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <a href="{{ url_for('st24.index') }}" class="btn btn-secondary mt-3">Назад</a>
+    </div>
+{% endblock %}

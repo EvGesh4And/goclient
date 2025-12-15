@@ -1,0 +1,42 @@
+{% extends "akm2501/st14/base.html" %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+
+{% if form_type == "save" %}
+<p>Введите имя файла для резервной копии базы:</p>
+<form method="post">
+    <p>
+        <label for="filename">Имя файла:</label><br>
+        <input type="text" id="filename" name="filename" value="backup.sqlite3" required>
+    </p>
+    <p>
+        <button type="submit">Сохранить</button>
+        <a href="{{ url_for('st0114.list_items') }}">Отмена</a>
+    </p>
+</form>
+{% elif form_type == "import" %}
+<p>Загрузите pickle-файл с данными сотрудников:</p>
+<form method="post" enctype="multipart/form-data">
+    <p>
+        <input type="file" name="pklfile" accept=".pkl" required>
+    </p>
+    <p>
+        <button type="submit">Импортировать</button>
+        <a href="{{ url_for('st0114.list_items') }}">Отмена</a>
+    </p>
+</form>
+{% elif form_type == "clear" %}
+<p>Вы уверены, что хотите удалить все записи?</p>
+<p><strong>Будет удалено: {{ count or 0 }}</strong></p>
+<form method="post">
+    <p>
+        <button type="submit">Удалить</button>
+        <a href="{{ url_for('st0114.list_items') }}">Отмена</a>
+    </p>
+</form>
+{% else %}
+<p>Неизвестная операция.</p>
+{% endif %}
+{% endblock %}
+

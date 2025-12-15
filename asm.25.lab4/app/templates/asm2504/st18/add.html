@@ -1,0 +1,202 @@
+{% extends "asm2504/st18/base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card p-4">
+            <h2 class="mb-4">Добавить новую запись</h2>
+
+            <form method="post" id="personForm">
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Тип записи:</label>
+                    <select name="role" id="role" class="form-select form-select-lg" required onchange="updateFields()">
+                        <option value="">Выберите тип</option>
+                        <option value="student">Студент</option>
+                        <option value="teacher">Преподаватель</option>
+                        <option value="staff">Сотрудник</option>
+                    </select>
+                </div>
+
+                <div id="fields">
+                    <div class="alert alert-info text-center">
+                        <p class="mb-0">Выберите тип записи для отображения полей ввода</p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function updateFields() {
+    const role = document.getElementById("role").value;
+    const container = document.getElementById("fields");
+    let html = "";
+
+    if (role === "student") {
+        html = `
+            <div class="row">
+                <div class="col-md-6">
+                    <div class='mb-3'>
+                        <label class='form-label'>Имя:</label>
+                        <input name='name' class='form-control' required>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class='mb-3'>
+                        <label class='form-label'>Возраст:</label>
+                        <input name='age' type='number' class='form-control'>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class='mb-3'>
+                        <label class='form-label'>Пол:</label>
+                        <select name='gender' class='form-select'>
+                            <option value="М">Мужской</option>
+                            <option value="Ж">Женский</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class='mb-3'>
+                        <label class='form-label'>Факультет:</label>
+                        <input name='faculty' class='form-control'>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class='mb-3'>
+                        <label class='form-label'>Группа:</label>
+                        <input name='group' class='form-control'>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class='mb-3'>
+                        <label class='form-label'>Средний балл:</label>
+                        <input name='gpa' type='number' step='0.1'  class='form-control'>
+                    </div>
+                </div>
+            </div>
+        `;
+    } else if (role === "teacher") {
+        html = `
+            <div class="row">
+                <div class="col-md-6">
+                    <div class='mb-3'>
+                        <label class='form-label'>Имя:</label>
+                        <input name='name' class='form-control' required>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class='mb-3'>
+                        <label class='form-label'>Возраст:</label>
+                        <input name='age' type='number' class='form-control'>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class='mb-3'>
+                        <label class='form-label'>Пол:</label>
+                        <select name='gender' class='form-select'>
+                            <option value="М">Мужской</option>
+                            <option value="Ж">Женский</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class='mb-3'>
+                        <label class='form-label'>Кафедра:</label>
+                        <input name='department' class='form-control'>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class='mb-3'>
+                        <label class='form-label'>Должность:</label>
+                        <input name='position' class='form-control'>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class='mb-3'>
+                        <label class='form-label'>Зарплата:</label>
+                        <input name='salary' type='number' step='0.01' class='form-control'>
+                    </div>
+                </div>
+            </div>
+        `;
+    } else if (role === "staff") {
+        html = `
+            <div class="row">
+                <div class="col-md-6">
+                    <div class='mb-3'>
+                        <label class='form-label'>Имя:</label>
+                        <input name='name' class='form-control' required>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class='mb-3'>
+                        <label class='form-label'>Возраст:</label>
+                        <input name='age' type='number' class='form-control'>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class='mb-3'>
+                        <label class='form-label'>Пол:</label>
+                        <select name='gender' class='form-select'>
+                            <option value="М">Мужской</option>
+                            <option value="Ж">Женский</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class='mb-3'>
+                        <label class='form-label'>Отдел:</label>
+                        <input name='department' class='form-control'>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class='mb-3'>
+                        <label class='form-label'>Должность:</label>
+                        <input name='position' class='form-control'>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class='mb-3'>
+                        <label class='form-label'>Стаж (лет):</label>
+                        <input name='experience' type='number' class='form-control'>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class='mb-3'>
+                        <label class='form-label'>Зарплата:</label>
+                        <input name='salary' type='number' step='0.01' class='form-control'>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    html += `
+        <div class="mt-4 pt-3 border-top">
+            <button type="submit" class="btn btn-success btn-lg">
+                Сохранить запись
+            </button>
+            <a href="{{ url_for('st18.index') }}" class="btn btn-secondary btn-lg">
+                Отмена
+            </a>
+        </div>
+    `;
+
+    container.innerHTML = html;
+}
+</script>
+{% endblock %}

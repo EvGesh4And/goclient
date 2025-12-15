@@ -1,0 +1,19 @@
+{% extends "asm2504/st12/base.html" %}
+{% block content %}
+<section class="panel">
+    <h2>Список студентов</h2>
+    {% if count %}
+    <p>Всего записей: <strong>{{ count }}</strong></p>
+    {% endif %}
+    {% if table_html %}
+        {{ table_html|safe }}
+    {% else %}
+        <p>Пока нет записей.</p>
+    {% endif %}
+    <div class="actions">
+        <a class="btn primary" href="{{ url_for('st0412.add_choose') }}">Добавить студента</a>
+        <a class="btn" href="{{ url_for('st0412.main') }}">На главную</a>
+    </div>
+</section>
+{% endblock %}
+

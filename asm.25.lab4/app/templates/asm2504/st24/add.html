@@ -1,0 +1,35 @@
+{% extends "asm2504/st24/base.html" %}
+
+{% block title %}Добавление сотрудника{% endblock %}
+
+{% block content %}
+    <h1 class="text-center mb-4">Добавить Сотрудника</h1>
+    <form method="POST" class="card p-4">
+        <div class="mb-3">
+            <label class="form-label">Тип Сотрудника:</label>
+            <select name="emp_type" id="emp_type" class="form-select">
+                <option value="Employee">Employee</option>
+                <option value="Manager">Manager</option>
+                <option value="Director">Director</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Имя:</label>
+            <input type="text" name="name" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Возраст:</label>
+            <input type="number" name="age" class="form-control">
+        </div>
+        <div class="mb-3" id="department_field" style="display: none;">
+            <label class="form-label">Отдел:</label>
+            <input type="text" name="department" class="form-control">
+        </div>
+        <div class="mb-3" id="title_field" style="display: none;">
+            <label class="form-label">Должность:</label>
+            <input type="text" name="title" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">Добавить</button>
+    </form>
+    <a href="{{ url_for('st24.index') }}" class="btn btn-secondary mt-3">Назад</a>
+{% endblock %}

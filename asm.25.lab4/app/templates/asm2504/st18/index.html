@@ -1,0 +1,62 @@
+{% extends "asm2504/st18/base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card p-4 text-center">
+            <h2 class="mb-4">Главное меню картотеки</h2>
+            
+            <div class="mb-4">
+                <p class="lead">Текущая база данных: <strong>{{ current_file }}</strong></p>
+            </div>
+
+            <div class="list-group">
+                <a href="{{ url_for('st18.list_people') }}" class="list-group-item list-group-item-action d-flex align-items-center">
+                    <span class="me-3"></span>
+                    <div class="flex-grow-1 text-start">
+                        <strong>Посмотреть все записи</strong>
+                        <br>
+                        <small class="text-muted">Просмотр, редактирование и удаление записей</small>
+                    </div>
+                </a>
+
+                <a href="{{ url_for('st18.add_person') }}" class="list-group-item list-group-item-action d-flex align-items-center">
+                    <span class="me-3"></span>
+                    <div class="flex-grow-1 text-start">
+                        <strong>Добавить новую запись</strong>
+                        <br>
+                        <small class="text-muted">Добавление студентов, преподавателей и сотрудников</small>
+                    </div>
+                </a>
+
+                <a href="{{ url_for('st18.save_as') }}" class="list-group-item list-group-item-action d-flex align-items-center">
+                    <span class="me-3"></span>
+                    <div class="flex-grow-1 text-start">
+                        <strong>Сохранить данные</strong>
+                        <br>
+                        <small class="text-muted">Сохранение текущего состояния базы</small>
+                    </div>
+                </a>
+
+                <a href="{{ url_for('st18.load_from') }}" class="list-group-item list-group-item-action d-flex align-items-center">
+                    <span class="me-3"></span>
+                    <div class="flex-grow-1 text-start">
+                        <strong>Загрузить из файла</strong>
+                        <br>
+                        <small class="text-muted">Импорт данных из pickle-файлов</small>
+                    </div>
+                </a>
+
+                <a href="{{ url_for('st18.clear_all') }}" class="list-group-item list-group-item-action d-flex align-items-center text-danger">
+                    <span class="me-3"></span>
+                    <div class="flex-grow-1 text-start">
+                        <strong>Очистить все записи</strong>
+                        <br>
+                        <small class="text-muted">Полная очистка базы данных</small>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

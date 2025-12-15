@@ -1,0 +1,17 @@
+{% extends "asm2504/st24/base.html" %}
+
+{% block title %}Сохранение{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Сохранить в Файл</h1>
+        <form method="POST" class="card p-4">
+            <div class="mb-3">
+                <label class="form-label">Имя Файла:</label>
+                <input type="text" name="filename" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+        </form>
+        <a href="{{ url_for('st24.index') }}" class="btn btn-secondary mt-3">Назад</a>
+    </div>
+{% endblock %}

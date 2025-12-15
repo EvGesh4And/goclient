@@ -1,0 +1,50 @@
+{% extends "asm2504/st26/base.html" %}
+
+{% block title %}Редактирование студента{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Редактировать {{ type }}</h1>
+        <form method="POST" action="{{ url_for('st26.edit', id=_obj.id) }}" class="card p-4">
+            <div class="mb-3">
+                <label class="form-label" for="fio">ФИО:</label>
+                <input type="text" name="fio" id="fio" class="form-control" value="{{ _obj.fio }}" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="age">Возраст:</label>
+                <input type="number" name="age" id="age" class="form-control" value="{{ _obj.age }}" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="sex">Пол:</label>
+                <select class="form-select" name="sex" id="sex" required>
+                    <option {% if _obj.sex == 'male' %}selected{% endif %} value="male">Мужской</option>
+                    <option {% if _obj.sex == 'female' %}selected{% endif %} value="female">Женский</option>
+                </select>
+            </div>
+            {% if type == 'Headman' %}
+            <div class="mb-3" id="meetingsHeld-div">
+                <label class="form-label" for="meetingsHeld">Кол-во проведённых встреч:</label>
+                <input type="number" name="meetingsHeld" id="meetingsHeld" class="form-control" value="{{ _obj.meetingsHeld }}" required>
+            </div>
+            <div class="mb-3" id="electronicJournal-div">
+                <label class="form-label" for="electronicJournal">Доступ к эл. журналу:</label>
+                <select class="form-select" name="electronicJournal" id="electronicJournal" required>
+                    <option {% if _obj.electronicJournal == 1 %}selected{% endif %} value=1>Да</option>
+                    <option {% if _obj.electronicJournal == 0 %}selected{% endif %} value=0>Нет</option>
+                </select>
+            </div>
+            {% elif type == 'Steward' %}
+            <div class="mb-3" id="ticketNumber-div">
+                <label class="form-label" for="ticketNumber">Номер билета:</label>
+                <input type="number" name="ticketNumber" id="ticketNumber" class="form-control" value="{{ _obj.ticketNumber }}" required>
+            </div>
+            <div class="mb-3" id="specialization-div">
+                <label class="form-label" for="specialization">Специализация:</label>
+                <input type="text" name="specialization" id="specialization" class="form-control" value="{{ _obj.specialization }}" required>
+            </div>
+            {% endif %}
+            <button type="submit" class="btn btn-success">Сохранить</button>
+        </form>
+        <a href="{{ url_for('st26.index') }}" class="btn btn-secondary mt-3">Назад</a>
+    </div>
+{% endblock %}

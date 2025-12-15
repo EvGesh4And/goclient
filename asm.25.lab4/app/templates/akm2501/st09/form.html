@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Форма</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        input { margin: 5px 0; padding: 5px; }
+        button { padding: 8px 16px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>
+        {% if it.type == 'Guest' %}Добавление гостя
+        {% else %}Добавление тренера{% endif %}
+    </h1>
+    
+    <form method="POST" action="{% if item_id is defined %}{{ url_for('st0109.update_item', item_id=item_id) }}{% else %}{{ url_for('st0109.add_item') }}{% endif %}">
+        {% if item_id is defined %}
+            <input type="hidden" name="item_id" value="{{ item_id }}">
+        {% else %}
+            <input type="hidden" name="item_type" value="{{ item_type }}">
+        {% endif %}
+        
+        <p>
+            <label>Имя:</label><br>
+            <input type="text" name="name" value="{{ it.name }}" required style="width: 300px;">
+        </p>
+        
+        <p>
+            <label>Возраст:</label><br>
+            <input type="number" name="age" value="{{ it.age }}" required min="0" style="width: 100px;">
+        </p>
+        
+        {% if it.type == 'Guest' or item_type == 1 %}
+            <p>
+                <label>Тип абонемента:</label><br>
+                <input type="text" name="pass_type" value="{{ it.pass_type }}" style="width: 300px;">
+            </p>
+        {% elif it.type == 'Coach' or item_type == 2 %}
+            <p>
+                <label>Тип тренировок:</label><br>
+                <input type="text" name="training_type" value="{{ it.training_type }}" style="width: 300px;">
+            </p>
+        {% endif %}
+        
+        <p>
+            <button type="submit">{% if item_id is defined %}Сохранить{% else %}Добавить{% endif %}</button>
+            <a href="{{ url_for('st0109.index') }}">Отмена</a>
+        </p>
+    </form>
+</body>
+</html>

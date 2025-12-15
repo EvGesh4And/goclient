@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>{% if kind == 'camera' or kind == 'Camera' %}Камера{% elif kind == 'lens' or kind == 'Lens' %}Объектив{% else %}Объект{% endif %}</h2>
+  <form method="post" action="{{ action }}">
+    <table>
+      {% for name, prompt, default in defs %}
+        <tr>
+          <td>{{ prompt }}</td>
+          <td>
+            {% set current = getattr(obj, name, default) %}
+            {% if default is boolean %}
+              <input type="checkbox" name="{{ name }}" value="1" {% if current %}checked{% endif %}>
+            {% elif default is number %}
+              <input type="number" name="{{ name }}" value="{{ current }}">
+            {% else %}
+              <input type="text" name="{{ name }}" value="{{ current }}">
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+    <p>
+      <button type="submit">Сохранить</button>
+      <a href="{{ url_for('.index') }}">Отмена</a>
+    </p>
+  </form>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+  <p>
+    <a href="{{ url_for('.add', kind='camera') }}">📸Добавить камеру📸</a> |
+    <a href="{{ url_for('.add', kind='lens') }}">🔭Добавить объектив🔭</a>
+  </p>
+
+  <h2>Список</h2>
+  {% if not items %}
+    <p>&lt;пусто&gt;</p>
+  {% else %}
+    <table>
+      <tr><th>#</th><th>Тип</th><th>Производитель</th><th>Модель/Фокус</th><th>Действия</th></tr>
+      {% for item in items %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td>{{ item.__class__.__name__ }}</td>
+          <td>{{ item.manufacturer }}</td>
+          <td>
+            {% if item.__class__.__name__ == 'Camera' %}
+              {{ item.model }} {{ item.megapixels }}MP
+            {% else %}
+              {{ item.model }} {{ item.focal_length }}
+            {% endif %}
+          </td>
+          <td>
+            <a href="{{ url_for('.edit', idx=loop.index0) }}">Редактировать</a>
+            <form method="post" action="{{ url_for('.delete', idx=loop.index0) }}" class="inline" style="display:inline">
+              <button type="submit" onclick="return confirm('Удалить?')">Удалить</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% endif %}
+
+  <h3>📥Сохранить📥 / 📤Загрузить📤</h3>
+  <form method="post" action="{{ url_for('.save') }}">
+    <input name="filename" placeholder="data.pickle">
+    <button type="submit">📥Сохранить📥</button>
+  </form>
+  <form method="post" action="{{ url_for('.load') }}" style="margin-top:8px;">
+    <input name="filename" placeholder="data.pickle">
+    <button type="submit">📤Загрузить📤</button>
+  </form>
+
+  <form method="post" action="{{ url_for('.clear') }}" style="margin-top:8px;">
+    <button type="submit" onclick="return confirm('Очистить весь список?')">🗑️Очистить список🗑️</button>
+  </form>
+{% endblock %}

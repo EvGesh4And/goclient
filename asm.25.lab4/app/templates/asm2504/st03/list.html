@@ -1,0 +1,44 @@
+{% extends "asm2504/st03/base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h3 m-0">Меню ресторана</h1>
+  <a href="{{ url_for('st03.add') }}" class="btn btn-primary">Добавить блюдо</a>
+</div>
+
+{% if message %}
+  <div class="alert alert-success">{{ message }}</div>
+{% endif %}
+
+{% if error %}
+  <div class="alert alert-danger">{{ error }}</div>
+{% endif %}
+
+{% if not items %}
+  <div class="alert alert-secondary">Меню пусто.</div>
+{% else %}
+  <div class="row row-cols-1 row-cols-md-2 g-3">
+    {% for item in items %}
+    <div class="col">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title mb-1">{{ item.name or "Без названия" }}</h5>
+          <div class="small text-muted mb-2">{{ item.dish_type }}</div>
+          <ul class="list-unstyled mb-3">
+            <li><strong>Цена:</strong> {{ "%.2f"|format(item.price) }} ₽</li>
+            <li><strong>Калорийность:</strong> {{ item.calories }} ккал</li>
+            <li><strong>Ингредиенты:</strong> {{ item.ingredients|join(", ") if item.ingredients else "—" }}</li>
+          </ul>
+          <div class="d-flex gap-2">
+            <a href="{{ url_for('st03.edit', id=item.id) }}" class="btn btn-sm btn-outline-primary">Редактировать</a>
+            <form action="{{ url_for('st03.delete', id=item.id) }}" method="post"
+                  onsubmit="return confirm('Удалить блюдо?')">
+              <button class="btn btn-sm btn-outline-danger" type="submit">Удалить</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+{% endif %}
+{% endblock %}

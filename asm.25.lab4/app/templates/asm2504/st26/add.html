@@ -1,0 +1,96 @@
+{% extends "asm2504/st26/base.html" %}
+
+{% block title %}Добавление студента{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Добавить </h1>
+        <form method="POST" action="{{ url_for('st26.add') }}" class="card p-4">
+            <div class="mb-3">
+                <label class="form-label" for="type">Тип студента:</label>
+                <select name="type" id="type" class="form-select">
+                    <option selected value="Student">Студент</option>
+                    <option value="Headman">Староста</option>
+                    <option value="Steward">Профорг</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="fio">ФИО:</label>
+                <input type="text" name="fio" id="fio" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="age">Возраст:</label>
+                <input type="number" name="age" id="age" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="sex">Пол:</label>
+                <select class="form-select" name="sex" id="sex" required>
+                    <option selected disabled value="">Выберете пол</option>
+                    <option value="male">Мужской</option>
+                    <option value="female">Женский</option>
+                </select>
+            </div>
+            <div class="mb-3" id="meetingsHeld-div" style="display: none;">
+                <label class="form-label" for="meetingsHeld">Кол-во проведённых встреч:</label>
+                <input type="number" name="meetingsHeld" id="meetingsHeld" class="form-control">
+            </div>
+            <div class="mb-3" id="electronicJournal-div" style="display: none;">
+                <label class="form-label" for="electronicJournal">Доступ к эл. журналу:</label>
+                <select class="form-select" name="electronicJournal" id="electronicJournal">
+                    <option selected disabled value="">Выберете значение</option>
+                    <option value=1>Да</option>
+                    <option value=0>Нет</option>
+                </select>
+            </div>
+
+            <div class="mb-3" id="ticketNumber-div" style="display: none;">
+                <label class="form-label" for="ticketNumber">Номер билета:</label>
+                <input type="number" name="ticketNumber" id="ticketNumber" class="form-control">
+            </div>
+            <div class="mb-3" id="specialization-div" style="display: none;">
+                <label class="form-label" for="specialization">Специализация:</label>
+                <input type="text" name="specialization" id="specialization" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-success">Добавить</button>
+        </form>
+        <a href="{{ url_for('st26.index') }}" class="btn btn-secondary mt-3">Назад</a>
+    </div>
+    <script>
+        function init() {
+            document.getElementById('type').addEventListener('change', function() {
+                var type = this.value;
+                var meetingsHeldDiv = document.getElementById('meetingsHeld-div');
+                var meetingsHeld = document.getElementById('meetingsHeld');
+                var electronicJournalDiv = document.getElementById('electronicJournal-div');
+                var electronicJournal = document.getElementById('electronicJournal');
+                var ticketNumberDiv = document.getElementById('ticketNumber-div');
+                var ticketNumber = document.getElementById('ticketNumber');
+                var specializationDiv = document.getElementById('specialization-div');
+                var specialization = document.getElementById('specialization');
+
+                meetingsHeldDiv.style.display = 'none';
+                meetingsHeld.required = false;
+                electronicJournalDiv.style.display = 'none';
+                electronicJournal.required = false;
+                ticketNumberDiv.style.display = 'none';
+                ticketNumber.required = false;
+                specializationDiv.style.display = 'none';
+                specialization.required = false;
+
+                if (type === 'Headman') {
+                    meetingsHeldDiv.style.display = 'block';
+                    meetingsHeld.required = true;
+                    electronicJournalDiv.style.display = 'block';
+                    electronicJournal.required = true;
+                } else if (type === 'Steward') {
+                    ticketNumberDiv.style.display = 'block';
+                    ticketNumber.required = true;
+                    specializationDiv.style.display = 'block';
+                    specialization.required = true;
+                }
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => init())
+    </script>
+{% endblock %}

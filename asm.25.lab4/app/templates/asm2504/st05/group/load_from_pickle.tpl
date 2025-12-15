@@ -1,0 +1,1 @@
+<a href='{{selfurl}}/load_from_pickle'>Подгрузить данные из pickle</a>

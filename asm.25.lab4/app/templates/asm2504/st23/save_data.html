@@ -1,0 +1,35 @@
+{% extends "asm2504/st23/base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="form-card">
+    <h2 class="form-title">{{ title }}</h2>
+    <form method="POST">
+        <div class="form-group">
+            <label class="form-label">Название файла</label>
+            <input type="text" class="form-control" name="filename"
+                   value="{{ current_file }}" placeholder="Введите название файла" required>
+            <div class="form-text">Файл будет сохранен с расширением .pkl</div>
+        </div>
+
+        {% if available_files %}
+        <div class="form-group">
+            <label class="form-label">Существующие файлы:</label>
+            <div>
+                {% for file in available_files %}
+                <div>
+                    <small>{{ file }}</small>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="form-group" style="display: flex; gap: 1rem; margin-top: 2rem;">
+            <button type="submit" class="action-btn" style="flex: 1;">Сохранить</button>
+            <a href="{{ url_for('bp.index') }}" class="action-btn secondary" style="flex: 1; text-align: center;">Отмена</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

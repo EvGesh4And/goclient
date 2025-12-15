@@ -1,0 +1,62 @@
+{% extends "akm2501/st08/base.html" %}
+{% block title %}Сотрудники{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="mb-0">Сотрудники</h1>
+    <a class="btn btn-success" href="{{ url_for('st0108.add_employee') }}">Добавить</a>
+</div>
+
+<div class="spacer"></div>
+
+    {% if message %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ message }}
+</div>
+    {% endif %}
+
+{% if employees %}
+<div class="table-responsive">
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Тип</th>
+                <th>name</th>
+                <th>email</th>
+                <th>department</th>
+                <th>salary</th>
+                <th>mentor</th>
+                <th>experiences</th>
+                <th>mentees</th>
+                <th></th>
+            </tr>
+        </thead>
+        {% set EXPECTED_COLS = 7 %}
+        <tbody>
+            {% for e in employees %}
+            <tr>
+                <td>{{ e['_index'] }}</td>
+                <td>{{ e['_type'] }}</td>
+                {% set ns = namespace(count=0) %}
+                {% for k, v in e.items() if not k.startswith('_') %}
+                <td>{{ v }}</td>
+                {% set ns.count = ns.count + 1 %}
+                {% endfor %}
+                {% if ns.count < EXPECTED_COLS %}
+                {% for _ in range(EXPECTED_COLS - ns.count) %}
+                <td></td>
+                {% endfor %}
+                {% endif %}
+                <td class="text-end">
+                    <a class="btn btn-sm btn-primary" href="{{ url_for('st0108.edit_employee', idx=e['_index']) }}">Изменить</a>
+                    <a class="btn btn-sm btn-outline-danger" href="{{ url_for('st0108.delete_employee', idx=e['_index']) }}">Удалить</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<p>Записей пока нет.</p>
+{% endif %}
+{% endblock %}

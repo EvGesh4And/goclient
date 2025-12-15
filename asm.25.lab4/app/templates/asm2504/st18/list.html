@@ -1,0 +1,34 @@
+{% extends "asm2504/st18/base.html" %}
+{% block content %}
+<div class="card p-4">
+    <h2>Список записей</h2>
+    <a href="{{ url_for('st18.add_person') }}" class="btn btn-primary mb-3">Добавить запись</a>
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered align-middle">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    {% for k in keys %}
+                    <th>{{ k }}</th>
+                    {% endfor %}
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in people %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    {% for k in keys %}
+                    <td>{{ p[k] }}</td>
+                    {% endfor %}
+                    <td>
+                        <a href="{{ url_for('st18.edit_person', person_id=loop.index0) }}" class="btn btn-sm btn-warning">Изменить</a>
+                        <a href="{{ url_for('st18.delete_person', person_id=loop.index0) }}" class="btn btn-sm btn-danger">Удалить</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

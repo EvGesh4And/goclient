@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Картотека спортзала</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        a { margin-right: 10px; color: #0066cc; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .nav { margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #ddd; }
+        .actions { white-space: nowrap; }
+    </style>
+</head>
+<body>
+    <h1>Картотека спортзала - [2501-09] Исламов</h1>
+    
+    <div class="nav">
+        <a href="{{ url_for('st0109.index') }}">Главная</a> |
+        <a href="{{ url_for('st0109.show_form', item_type=1) }}">Добавить Гостя</a> |
+        <a href="{{ url_for('st0109.show_form', item_type=2) }}">Добавить Тренера</a> |
+        <a href="{{ url_for('st0109.save_pickle') }}">Сохранить</a> |
+        <a href="{{ url_for('st0109.load_pickle') }}">Загрузить</a>
+    </div>
+    
+    <h2>Список посетителей</h2>
+
+    {% if items %}
+        <p>Всего записей: <strong>{{ items|length }}</strong></p>
+        <table>
+            <tr>
+                <th>#</th>
+                <th>Тип</th>
+                <th>Имя</th>
+                <th>Возраст</th>
+                <th>Дополнительно</th>
+                <th>Действия</th>
+            </tr>
+            {% for item in items %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>
+                    {% if item.type == 'Guest' %}Гость
+                    {% else %}Тренер{% endif %}
+                </td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.age }}</td>
+                <td>
+                    {% if item.type == 'Guest' %}
+                        Абонемент: {{ item.pass_type }}
+                    {% elif item.type == 'Coach' %}
+                        Тренировки: {{ item.training_type }}
+                    {% endif %}
+                </td>
+                <td class="actions">
+                    <a href="{{ url_for('st0109.edit_item', item_id=item.id) }}">Редакт.</a>
+                    <a href="{{ url_for('st0109.delete_item', item_id=item.id) }}" onclick="return confirm('Удалить?')">Удалить</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>Картотека пуста</p>
+    {% endif %}
+</body>
+</html>

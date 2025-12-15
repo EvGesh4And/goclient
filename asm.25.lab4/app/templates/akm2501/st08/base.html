@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Сотрудники{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  </head>
+  <body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+      <div class="container">
+        <a class="navbar-brand" href="{{ url_for('st0108.home') }}">st08</a>
+        <div class="navbar-nav">
+          <a class="nav-link" href="{{ url_for('st0108.list_employees') }}">Сотрудники</a>
+          <a class="nav-link" href="{{ url_for('st0108.add_employee') }}">Добавить</a>
+          <a class="nav-link" href="{{ url_for('st0108.save_data') }}">Сохранить</a>
+          <a class="nav-link" href="{{ url_for('st0108.load_data') }}">Загрузить</a>
+          <a class="nav-link" href="{{ url_for('st0108.restore_data') }}">Восстановить</a>
+          <a class="nav-link" href="{{ url_for('st0108.clear_data') }}">Очистить</a>
+        </div>
+      </div>
+    </nav>
+    <main class="container">
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div class="alert alert-info">
+            {% for m in messages %}<div>{{ m }}</div>{% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </main>
+  </body>
+</html>

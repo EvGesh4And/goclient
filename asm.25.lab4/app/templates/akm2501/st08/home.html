@@ -1,0 +1,20 @@
+{% extends "akm2501/st08/base.html" %}
+{% block title %}Главная{% endblock %}
+{% block content %}
+<h1 class="mb-3">Статистика</h1>
+<ul class="list-group mb-4" style="max-width: 360px;">
+    <li class="list-group-item d-flex justify-content-between"><span>Всего</span><span>{{ stats['Total'] }}</span></li>
+    <li class="list-group-item d-flex justify-content-between"><span>Junior</span><span>{{ stats['Junior'] }}</span></li>
+    <li class="list-group-item d-flex justify-content-between"><span>Middle</span><span>{{ stats['Middle'] }}</span></li>
+    <li class="list-group-item d-flex justify-content-between"><span>Senior</span><span>{{ stats['Senior'] }}</span></li>
+</ul>
+<a class="btn btn-primary" href="{{ url_for('st0108.list_employees') }}">Перейти к списку</a>
+
+<div class="spacer"></div>
+
+    {% if message %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ message }}
+</div>
+    {% endif %}
+{% endblock %}

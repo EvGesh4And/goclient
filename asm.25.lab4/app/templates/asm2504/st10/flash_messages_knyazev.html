@@ -1,0 +1,15 @@
+{% if request.args.msg %}
+  <div class="flash" role="status" aria-live="polite" style="margin-bottom:14px;">
+    <ul style="list-style:none;margin:0;padding:10px 12px;background:linear-gradient(180deg,#fff,#fbfdff);
+                border:1px solid #e6e9ef;border-radius:8px;color:#6b7280;">
+      <li style="padding:6px 0;">{{ request.args.msg }}</li>
+    </ul>
+  </div>
+{% elif msg %}
+  <div class="flash" role="status" aria-live="polite" style="margin-bottom:14px;">
+    <ul style="list-style:none;margin:0;padding:10px 12px;background:linear-gradient(180deg,#fff,#fbfdff);
+                border:1px solid #e6e9ef;border-radius:8px;color:#6b7280;">
+      <li style="padding:6px 0;">{{ msg }}</li>
+    </ul>
+  </div>
+{% endif %}

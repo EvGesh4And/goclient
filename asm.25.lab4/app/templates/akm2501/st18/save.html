@@ -1,0 +1,21 @@
+{% extends "akm2501/st18/base.html" %}
+{% block content %}
+
+<h2>Сохранение базы данных</h2>
+
+<form method="post" action="{{ url_for('st0118.save_to_file') }}">
+    <div style="margin-bottom: 15px;">
+        <label for="filename">Имя файла для сохранения:</label>
+        <input type="text" id="filename" name="filename" placeholder="например: backup.dat" required style="margin-left: 10px; padding: 5px; width: 200px;">
+    </div>
+
+    <button type="submit" style="padding: 8px 16px; background: #28a745; color: white; border: none; border-radius: 4px;">
+        Сохранить базу данных
+    </button>
+</form>
+
+<div style="margin-top: 20px;">
+    <a href="{{ url_for('st0118.index') }}">← Назад к картотеке</a>
+</div>
+
+{% endblock %}

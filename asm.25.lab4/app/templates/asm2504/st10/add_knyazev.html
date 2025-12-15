@@ -1,0 +1,30 @@
+{% extends 'base_knyazev.html' %}
+
+{% block content %}
+
+<div class="student-container">
+  <h3>Добавление: {{ cls_name }}</h3>
+
+  {% include 'flash_messages_knyazev.html' %}
+    
+  <form method="post" action="{{ url_for(blueprint_name ~ '.add') }}" class="add-form" style="max-width:600px;">
+    <input type="hidden" name="cls_index" value="{{ cls_index }}">
+
+    {% for field_key, label in fields.items() %}
+      <div style="margin-bottom:12px;">
+        <label style="display:block; font-weight:600; margin-bottom:6px;">{{ label }}</label>
+        <input name="{{ field_key }}"
+              value="{{ (values[field_key] if values and field_key in values else '') }}"
+              placeholder="{{ label }}"
+              style="width:100%; padding:10px; border:1px solid #e6e9ef; border-radius:8px; box-sizing:border-box;">
+      </div>
+    {% endfor %}
+
+    <div style="display:flex; gap:10px; align-items:center; margin-top:8px;">
+      <button type="submit">Добавить</button>
+      <a href="{{ url_for(blueprint_name ~ '.index') }}" class="secondary" style="display:inline-flex; align-items:center; padding:8px 12px; border-radius:8px; text-decoration:none; color:inherit; border:1px solid #e5e7eb;">Отмена</a>
+    </div>
+  </form>
+</div>
+
+{% endblock %}

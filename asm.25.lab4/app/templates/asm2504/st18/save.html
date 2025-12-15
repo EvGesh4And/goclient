@@ -1,0 +1,15 @@
+{% extends "asm2504/st18/base.html" %}
+{% block content %}
+<div class="card p-4">
+    <h2>Сохранить как</h2>
+    <p>Текущий файл: <b>{{ current }}</b></p>
+    <form method="post">
+        <div class="mb-3">
+            <label class="form-label">Имя нового файла (.db):</label>
+            <input name="filename" class="form-control" required placeholder="Введите имя файла">
+        </div>
+        <button class="btn btn-success">Сохранить</button>
+        <a href="{{ url_for('st18.index') }}" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>
+{% endblock %}

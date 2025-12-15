@@ -1,0 +1,6 @@
+{% extends "akm2501/st18/base.html" %}
+{% block content %}
+  <h2>Выберите тип элемента</h2>
+  <p><a href="{{ url_for('st0118.add_kind', kind='student') }}">Студент</a></p>
+  <p><a href="{{ url_for('st0118.add_kind', kind='employee') }}">Сотрудник</a></p>
+{% endblock %}

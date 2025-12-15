@@ -1,0 +1,39 @@
+{% extends "asm2504/st12/base.html" %}
+{% block content %}
+<section class="panel">
+    <h2>{{ title }}</h2>
+    
+    {% if form_type == "save" %}
+    <form method="post">
+        <label>Имя файла
+            <input name="filename" value="backup.sqlite3" required>
+        </label>
+        <div class="actions">
+            <button class="btn primary" type="submit">Сохранить</button>
+            <a class="btn" href="{{ url_for('st0412.list_items') }}">Отмена</a>
+        </div>
+    </form>
+    {% elif form_type == "import" %}
+    <form method="post" enctype="multipart/form-data">
+        <label>Загрузите pickle-файл с данными студентов
+            <input type="file" name="pklfile" accept=".pkl" required>
+        </label>
+        <div class="actions">
+            <button class="btn primary" type="submit">Импортировать</button>
+            <a class="btn" href="{{ url_for('st0412.list_items') }}">Отмена</a>
+        </div>
+    </form>
+    {% elif form_type == "clear" %}
+    <p>Вы уверены, что хотите удалить все записи?</p>
+    <p><strong>Будет удалено: {{ count or 0 }}</strong></p>
+    <form method="post">
+        <div class="actions">
+            <button class="btn danger" type="submit">Удалить</button>
+            <a class="btn" href="{{ url_for('st0412.list_items') }}">Отмена</a>
+        </div>
+    </form>
+    {% else %}
+    <p>Неизвестная операция.</p>
+    {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "asm2504/st12/base.html" %}
+
+{% block content %}
+<section class="panel">
+    <h2>{{ title }}</h2>
+
+    {% if page_type == "add_choose" %}
+    <p style="margin-bottom: 20px;">Выберите тип добавляемого объекта:</p>
+    <div class="grid">
+        {% for type_name, type_title in types %}
+        <a class="card" href="{{ url_for('st0412.add_item', type_name=type_name) }}">{{ type_title }}</a>
+        {% endfor %}
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

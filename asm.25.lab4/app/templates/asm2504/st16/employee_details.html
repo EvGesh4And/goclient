@@ -1,0 +1,36 @@
+
+{% extends "asm2504/st16/index.html" %}
+
+{% block title %} Employee Details {% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Employee Details</h1>
+    
+    <div class="row">
+        <div class="col-md-8 col-lg-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">{{ employee.title }}: {{ employee.name }}</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text"><strong>ID:</strong> {{ employee.id }}</p>
+                    <p class="card-text"><strong>Age:</strong> {{ employee.age }}</p>
+                    <p class="card-text"><strong>Sex:</strong> {{ employee.sex }}</p>
+                    <p class="card-text"><strong>Department:</strong> {{ employee.department }}</p>
+                    <p class="card-text"><strong>Salary:</strong> {{ employee.salary }}</p>
+                    
+                    {% if employee.team_size %}
+                        <p class="card-text"><strong>Team size:</strong> {{ employee.team_size }}</p>
+                    {% endif %}
+                    {% if employee.assistant %}
+                        <p class="card-text"><strong>Has an assistant?:</strong> {{ employee.assistant }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <a href="{{ url_for('.index') }}" class="btn btn-primary">Back to Home</a>
+</div>
+{% endblock %}

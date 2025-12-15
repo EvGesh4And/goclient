@@ -1,0 +1,22 @@
+{% extends "asm2504/st01/base.html" %}
+{% block title %}{{ "Редактировать" if entity_id else "Добавить" }} {{ entity_type|title }}{% endblock %}
+
+{% block content %}
+<h2>{{ "Редактировать" if entity_id else "Добавить" }} {{ entity_type|title }}</h2>
+
+{% if error %}
+  <div class="alert alert-danger">{{ error }}</div>
+{% endif %}
+
+<form method="post" action="{{ url_for('st0401.add_form' if not entity_id else 'st0401.edit', entity_id=entity_id or '', type=entity_type) }}">
+  {{ form_html|safe }}
+  <div class="mt-3">
+    <button type="submit" class="btn btn-success">
+      Сохранить
+    </button>
+    <a href="{{ url_for('st0401.index') }}" class="btn btn-secondary">
+      ← Отмена
+    </a>
+  </div>
+</form>
+{% endblock %}

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Добавить актив</title>
+</head>
+<body>
+    <h1>Добавить актив в портфель</h1>
+
+    <form method="POST">
+        <div style="margin-bottom: 15px;">
+            <label for="asset_type" style="display: block; margin-bottom: 5px; font-weight: bold;">Тип актива:</label>
+            <select name="asset_type" id="asset_type" required style="width: 100%; padding: 8px;">
+                <option value="stock">Акция</option>
+                <option value="bond">Облигация</option>
+            </select>
+        </div>
+
+        <div style="margin-bottom: 15px;">
+            <label for="Название актива" style="display: block; margin-bottom: 5px; font-weight: bold;">Название:</label>
+            <input type="text" name="Название актива" required style="width: 100%; padding: 8px;">
+        </div>
+
+        <div style="margin-bottom: 15px;">
+            <label for="Цена" style="display: block; margin-bottom: 5px; font-weight: bold;">Цена:</label>
+            <input type="number" name="Цена" step="0.01" required style="width: 100%; padding: 8px;">
+        </div>
+
+        <div style="margin-bottom: 15px;">
+            <label for="Валюта" style="display: block; margin-bottom: 5px; font-weight: bold;">Валюта:</label>
+            <select name="Валюта" style="width: 100%; padding: 8px;">
+                <option value="USD">USD</option>
+                <option value="EUR">EUR</option>
+                <option value="RUB">RUB</option>
+            </select>
+        </div>
+
+        <div id="stock-fields" style="margin-bottom: 15px;">
+            <div style="margin-bottom: 15px;">
+                <label for="Дивидендная доходность (%)" style="display: block; margin-bottom: 5px; font-weight: bold;">Дивидендная доходность (%):</label>
+                <input type="number" name="Дивидендная доходность (%)" step="0.01" style="width: 100%; padding: 8px;">
+            </div>
+        </div>
+
+        <div id="bond-fields" style="display: none; margin-bottom: 15px;">
+            <div style="margin-bottom: 15px;">
+                <label for="Купонная ставка (%)" style="display: block; margin-bottom: 5px; font-weight: bold;">Купонная ставка (%):</label>
+                <input type="number" name="Купонная ставка (%)" step="0.01" style="width: 100%; padding: 8px;">
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label for="Срок до погашения (лет)" style="display: block; margin-bottom: 5px; font-weight: bold;">Срок до погашения (лет):</label>
+                <input type="number" name="Срок до погашения (лет)" style="width: 100%; padding: 8px;">
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label for="Номинальная стоимость" style="display: block; margin-bottom: 5px; font-weight: bold;">Номинальная стоимость:</label>
+                <input type="number" name="Номинальная стоимость" step="0.01" style="width: 100%; padding: 8px;">
+            </div>
+        </div>
+
+        <div style="margin-top: 20px; text-align: right;">
+            <button type="submit" style="padding: 8px 16px; background-color: #4CAF50; color: white; border: none; cursor: pointer;">Добавить</button>
+            <a href="{{ url_for('st29.main') }}" style="padding: 8px 16px; background-color: #6c757d; color: white; text-decoration: none;">Отмена</a>
+        </div>
+    </form>
+
+    <script>
+        document.getElementById('asset_type').addEventListener('change', function() {
+            var stockFields = document.getElementById('stock-fields');
+            var bondFields = document.getElementById('bond-fields');
+
+            if (this.value === 'stock') {
+                stockFields.style.display = 'block';
+                bondFields.style.display = 'none';
+            } else {
+                stockFields.style.display = 'none';
+                bondFields.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

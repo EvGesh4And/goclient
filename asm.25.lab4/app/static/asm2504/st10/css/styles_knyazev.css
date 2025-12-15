@@ -1,0 +1,115 @@
+.student-container {
+max-width: 900px;
+margin: 24px auto;
+font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+color: #111827;
+}
+
+h2 {
+margin-bottom: 12px;
+font-size: 1.5rem;
+}
+
+.controls {
+display: flex;
+gap: 12px;
+align-items: center;
+margin-bottom: 18px;
+flex-wrap: wrap;
+}
+
+.form-inline {
+display: flex;
+gap: 8px;
+align-items: center;
+}
+
+select, input[type="text"], input[name="filename"] {
+padding: 8px 10px;
+border: 1px solid #d1d5db;
+border-radius: 6px;
+background: #fff;
+font-size: 0.95rem;
+}
+
+button {
+background: linear-gradient(180deg,#10b981,#065f46);
+color: white;
+border: none;
+padding: 8px 12px;
+border-radius: 8px;
+cursor: pointer;
+font-weight: 600;
+box-shadow: 0 1px 0 rgba(0,0,0,0.03);
+}
+button.secondary {
+background: #f3f4f6;
+color: #111827;
+box-shadow: none;
+border: 1px solid #e5e7eb;
+}
+button.danger {
+background: #374151;
+box-shadow: none;
+}
+
+table.students {
+width: 100%;
+border-collapse: collapse;
+background: white;
+border-radius: 8px;
+overflow: hidden;
+box-shadow: 0 6px 18px rgba(15,23,42,0.06);
+}
+
+table.students thead {
+background: linear-gradient(90deg,#f8fafc,#e6f9f2);
+}
+
+table.students th, table.students td {
+padding: 12px 14px;
+text-align: left;
+border-bottom: 1px solid #eef2f7;
+vertical-align: top;
+font-size: 0.95rem;
+}
+
+table.students tbody tr:hover {
+background: #fbfdff;
+}
+
+.type-badge {
+display: inline-block;
+padding: 4px 8px;
+border-radius: 999px;
+background: #e6f9f2;
+color: #065f46;
+font-weight: 600;
+font-size: 0.85rem;
+}
+
+.data-list { margin: 0; padding-left: 18px; }
+.data-list li { margin-bottom: 4px; }
+
+.actions { display:flex; gap:8px; align-items:center; }
+.actions a { color: #10b981; text-decoration: none; font-weight: 600; }
+.actions form { display:inline; margin:0; }
+
+.file-forms { display:flex; gap:8px; margin-top: 0px; flex-wrap:wrap; }
+.file-forms .group { display:flex; gap:8px; align-items:center; }
+.file-forms .group input[name="filename"] { flex: 1; min-width: 220px; }
+.note { color:#6b7280; font-size:0.9rem; margin-top:8px; }
+
+footer {
+display: flex;
+justify-content: center;
+align-items: center;
+height: 80px;
+}
+
+.footer-note {
+color: #6b6b6b;
+margin: 0;
+text-align: center;
+font-size: 14px;
+}

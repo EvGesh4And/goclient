@@ -1,0 +1,15 @@
+{% extends "asm2504/st09/base.html" %}
+{% block title %}Редактировать сотрудника{% endblock %}
+
+{% block content %}
+  <h2>Редактирование сотрудника — {{ employee.name }}</h2>
+
+  <form method="post">
+    <p>Тип: <strong>{{ emp_type }}</strong></p>
+
+    {{ form_fields | safe }}
+
+    <button type="submit">Сохранить</button>
+    <a href="{{ url_for('st0409.main') }}" style="margin-left: 10px;">Назад</a>
+  </form>
+{% endblock %}

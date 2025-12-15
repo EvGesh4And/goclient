@@ -1,0 +1,33 @@
+{% extends "asm2504/st01/base.html" %}
+{% block title %}Добавить запись{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Выберите тип записи</h2>
+
+<div class="row g-3">
+  <div class="col-md-4">
+    <a href="{{ url_for('st0401.add_form', type='student') }}" class="btn btn-outline-primary w-100 p-4">
+      <h5>Студент</h5>
+      <small>Обычный студент</small>
+    </a>
+  </div>
+  <div class="col-md-4">
+    <a href="{{ url_for('st0401.add_form', type='starosta') }}" class="btn btn-outline-success w-100 p-4">
+      <h5>Староста</h5>
+      <small>Ответственный за группу</small>
+    </a>
+  </div>
+  <div class="col-md-4">
+    <a href="{{ url_for('st0401.add_form', type='proforg') }}" class="btn btn-outline-warning w-100 p-4">
+      <h5>Профорг</h5>
+      <small>Профсоюзная деятельность</small>
+    </a>
+  </div>
+</div>
+
+<div class="mt-4">
+  <a href="{{ url_for('st0401.index') }}" class="btn btn-secondary">
+    ← Назад к списку
+  </a>
+</div>
+{% endblock %}

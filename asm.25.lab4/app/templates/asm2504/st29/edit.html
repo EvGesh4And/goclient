@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Редактировать актив</title>
+</head>
+<body>
+    <h1>Редактировать актив</h1>
+
+    <form method="POST">
+        <div style="margin-bottom: 15px;">
+            <label for="Название актива" style="display: block; margin-bottom: 5px; font-weight: bold;">Название:</label>
+            <input type="text" name="Название актива" value="{{ asset.name }}" required style="width: 100%; padding: 8px;">
+        </div>
+
+        <div style="margin-bottom: 15px;">
+            <label for="Цена" style="display: block; margin-bottom: 5px; font-weight: bold;">Цена:</label>
+            <input type="number" name="Цена" step="0.01" value="{{ asset.price }}" required style="width: 100%; padding: 8px;">
+        </div>
+
+        <div style="margin-bottom: 15px;">
+            <label for="Валюта" style="display: block; margin-bottom: 5px; font-weight: bold;">Валюта:</label>
+            <select name="Валюта" style="width: 100%; padding: 8px;">
+                <option value="USD" {% if asset.currency == 'USD' %}selected{% endif %}>USD</option>
+                <option value="EUR" {% if asset.currency == 'EUR' %}selected{% endif %}>EUR</option>
+                <option value="RUB" {% if asset.currency == 'RUB' %}selected{% endif %}>RUB</option>
+            </select>
+        </div>
+
+        {% if asset.get_type() == "Акция" %}
+        <div style="margin-bottom: 15px;">
+            <label for="Дивидендная доходность (%)" style="display: block; margin-bottom: 5px; font-weight: bold;">Дивидендная доходность (%):</label>
+            <input type="number" name="Дивидендная доходность (%)" step="0.01" value="{{ asset.dividend_yield }}" style="width: 100%; padding: 8px;">
+        </div>
+        {% elif asset.get_type() == "Облигация" %}
+        <div style="margin-bottom: 15px;">
+            <label for="Купонная ставка (%)" style="display: block; margin-bottom: 5px; font-weight: bold;">Купонная ставка (%):</label>
+            <input type="number" name="Купонная ставка (%)" step="0.01" value="{{ asset.coupon_rate }}" style="width: 100%; padding: 8px;">
+        </div>
+        <div style="margin-bottom: 15px;">
+            <label for="Срок до погашения (лет)" style="display: block; margin-bottom: 5px; font-weight: bold;">Срок до погашения (лет):</label>
+            <input type="number" name="Срок до погашения (лет)" value="{{ asset.maturity_years }}" style="width: 100%; padding: 8px;">
+        </div>
+        <div style="margin-bottom: 15px;">
+            <label for="Номинальная стоимость" style="display: block; margin-bottom: 5px; font-weight: bold;">Номинальная стоимость:</label>
+            <input type="number" name="Номинальная стоимость" step="0.01" value="{{ asset.face_value }}" style="width: 100%; padding: 8px;">
+        </div>
+        {% endif %}
+
+        <div style="margin-top: 20px; text-align: right;">
+            <button type="submit" style="padding: 8px 16px; background-color: #4CAF50; color: white; border: none; cursor: pointer;">Сохранить</button>
+            <a href="{{ url_for('st29.main') }}" style="padding: 8px 16px; background-color: #6c757d; color: white; text-decoration: none;">Отмена</a>
+        </div>
+    </form>
+</body>
+</html>

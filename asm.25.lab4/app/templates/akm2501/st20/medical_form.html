@@ -1,0 +1,86 @@
+{% extends "akm2501/st20/base.html" %}
+
+{% block content %}
+    <h2>
+        {% if item_id %}
+            Редактирование сотрудника
+        {% else %}
+            Добавление сотрудника
+        {% endif %}
+    </h2>
+    
+    <form method="POST" action="{% if item_id %}{{ url_for('st0120.update_item', item_id=item_id) }}{% else %}{{ url_for('st0120.add_item') }}{% endif %}">
+        {% if item_id %}
+            <input type="hidden" name="item_id" value="{{ item_id }}">
+        {% else %}
+            <div class="form-group">
+                <label>Тип сотрудника:</label>
+                <select name="staff_type" onchange="toggleFields()">
+                    <option value="nurse" {% if staff_type == 'nurse' %}selected{% endif %}>Медсестра</option>
+                    <option value="doctor" {% if staff_type == 'doctor' %}selected{% endif %}>Врач</option>
+                </select>
+            </div>
+        {% endif %}
+        
+        <div class="form-group">
+            <label>Имя:</label>
+            <input type="text" name="name" value="{{ item.name }}" required>
+        </div>
+        
+        <div class="form-group">
+            <label>Специальность:</label>
+            <input type="text" name="specialty" value="{{ item.specialty }}">
+        </div>
+        
+        <div class="form-group">
+            <label>Категория:</label>
+            <input type="text" name="category" value="{{ item.category }}">
+        </div>
+        
+        <div class="form-group">
+            <label>График работы:</label>
+            <input type="text" name="schedule" value="{{ item.schedule }}">
+        </div>
+        
+        <div id="nurse-fields" {% if item_id and item.staff_type != 'nurse' %}style="display: none;"{% endif %}>
+            <div class="form-group">
+                <label>Процедурный кабинет:</label>
+                <input type="text" name="procedure_room" value="{{ item.procedure_room }}">
+            </div>
+            <div class="form-group">
+                <label>Смена:</label>
+                <input type="text" name="shift" value="{{ item.shift }}">
+            </div>
+        </div>
+        
+        <div id="doctor-fields" {% if item_id and item.staff_type != 'doctor' %}style="display: none;"{% endif %}>
+            <div class="form-group">
+                <label>Лицензия:</label>
+                <input type="text" name="license" value="{{ item.license }}">
+            </div>
+            <div class="form-group">
+                <label>Специализация:</label>
+                <input type="text" name="specialization" value="{{ item.specialization }}">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <button type="submit">Сохранить</button>
+            <a href="{{ url_for('st0120.index') }}" class="btn-cancel">Отмена</a>
+        </div>
+    </form>
+
+    <script>
+    function toggleFields() {
+        var type = document.querySelector('select[name="staff_type"]').value;
+        document.getElementById('nurse-fields').style.display = type == 'nurse' ? 'block' : 'none';
+        document.getElementById('doctor-fields').style.display = type == 'doctor' ? 'block' : 'none';
+    }
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        if (document.querySelector('select[name="staff_type"]')) {
+            toggleFields();
+        }
+    });
+    </script>
+{% endblock %}

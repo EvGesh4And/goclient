@@ -1,0 +1,143 @@
+{% extends "asm2504/st23/base.html" %}
+
+{% block title %}Главная - MS cafe{% endblock %}
+
+{% block content %}
+
+{% if dishes %}
+<section class="menu-section">
+    <h2 class="section-title">Меню</h2>
+
+    {% set indexed_dishes = [] %}
+    {% for dish in dishes %}
+        {% set _ = indexed_dishes.append(dish) %}
+    {% endfor %}
+
+    {% set main_dishes = indexed_dishes|selectattr('type', 'equalto', 'MainDish')|list %}
+    {% set desserts = indexed_dishes|selectattr('type', 'equalto', 'Dessert')|list %}
+
+    <div class="two-columns">
+        <div class="column">
+            <div class="column-header">
+                <div class="column-icon">🍽️</div>
+                <h3 class="column-title">Основное</h3>
+                <span class="column-count">{{ main_dishes|length }}</span>
+            </div>
+
+            <div class="column-dishes">
+                {% if main_dishes %}
+                    {% for dish in main_dishes %}
+                    <div class="dish-card-compact">
+                        <div class="dish-header-compact">
+                            <h4 class="dish-name-compact">{{ dish.name }}</h4>
+                            <span class="dish-badge primary">Основное</span>
+                        </div>
+                        <div class="dish-details-compact">
+                            <p><strong>Кухня:</strong> {{ dish.cuisine }}</p>
+                            <p><strong>Калории:</strong> {{ dish.calories }} ккал</p>
+                            {% if dish.garnish is defined %}
+                                <p><strong>Гарнир:</strong> {{ dish.garnish }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="dish-actions-compact">
+                            <a href="{{ url_for('bp.edit_dish', index=dish.index) }}" class="btn btn-outline btn-sm">
+                                ✏️
+                            </a>
+                            <a href="{{ url_for('bp.delete_dish', index=dish.index) }}" class="btn btn-danger btn-sm"
+                               onclick="return confirm('Удалить это блюдо?')">
+                                🗑️
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-column">
+                        <div class="icon">🍽️</div>
+                        <h4>Нет основных блюд</h4>
+                        <p>Добавьте первое основное блюдо</p>
+                        <a href="{{ url_for('bp.add_dish') }}" class="btn btn-outline btn-sm">
+                            Добавить блюдо
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="column-header">
+                <div class="column-icon">🍰</div>
+                <h3 class="column-title">Десерты</h3>
+                <span class="column-count">{{ desserts|length }}</span>
+            </div>
+
+            <div class="column-dishes">
+                {% if desserts %}
+                    {% for dish in desserts %}
+                    <div class="dish-card-compact">
+                        <div class="dish-header-compact">
+                            <h4 class="dish-name-compact">{{ dish.name }}</h4>
+                            <span class="dish-badge success">Десерт</span>
+                        </div>
+                        <div class="dish-details-compact">
+                            <p><strong>Кухня:</strong> {{ dish.cuisine }}</p>
+                            <p><strong>Калории:</strong> {{ dish.calories }} ккал</p>
+                            {% if dish.sweetness is defined %}
+                                <p><strong>Сладость:</strong> {{ dish.sweetness }}/10</p>
+                            {% endif %}
+                        </div>
+                        <div class="dish-actions-compact">
+                            <a href="{{ url_for('bp.edit_dish', index=dish.index) }}" class="btn btn-outline btn-sm">
+                                ✏️
+                            </a>
+                            <a href="{{ url_for('bp.delete_dish', index=dish.index) }}" class="btn btn-danger btn-sm"
+                               onclick="return confirm('Удалить это блюдо?')">
+                                🗑️
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-column">
+                        <div class="icon">🍰</div>
+                        <h4>Нет десертов</h4>
+                        <p>Добавьте первый десерт</p>
+                        <a href="{{ url_for('bp.add_dish') }}" class="btn btn-outline btn-sm">
+                            Добавить десерт
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% else %}
+
+<section class="empty-state">
+    <h3>Меню пусто</h3>
+    <p>Начните с добавления первого блюда в картотеку</p>
+    <a href="{{ url_for('bp.add_dish') }}" class="action-btn">
+        Добавить первое блюдо
+    </a>
+</section>
+{% endif %}
+
+<section class="actions-section">
+    <div class="actions-grid">
+        <a href="{{ url_for('bp.add_dish') }}" class="action-btn">
+            ➕ Добавить
+        </a>
+        <a href="{{ url_for('bp.save_data') }}" class="action-btn secondary">
+            💾 Сохранить
+        </a>
+        <a href="{{ url_for('bp.load_data') }}" class="action-btn secondary">
+            📂 Загрузить
+        </a>
+        {% if dishes %}
+        <a href="{{ url_for('bp.clear_all') }}" class="action-btn danger"
+           onclick="return confirm('Вы уверены, что хотите очистить весь список?')">
+            🗑️ Очистить все
+        </a>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

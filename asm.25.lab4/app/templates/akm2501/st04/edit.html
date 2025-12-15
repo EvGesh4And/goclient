@@ -1,0 +1,32 @@
+{% extends "akm2501/st04/base.html" %}
+
+{% block title %}Редактирование{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Редактировать {{ emp_type }}</h1>
+        <form method="POST" class="card p-4">
+            <div class="mb-3">
+                <label class="form-label">Имя:</label>
+                <input type="text" name="name" value="{{ emp.name }}" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Возраст:</label>
+                <input type="number" name="age" value="{{ emp.age }}" class="form-control">
+            </div>
+            {% if emp_type == 'Manager' %}
+                <div class="mb-3">
+                    <label class="form-label">Отдел:</label>
+                    <input type="text" name="department" value="{{ emp.department }}" class="form-control">
+                </div>
+            {% elif emp_type == 'Director' %}
+                <div class="mb-3">
+                    <label class="form-label">Должность:</label>
+                    <input type="text" name="title" value="{{ emp.title }}" class="form-control">
+                </div>
+            {% endif %}
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+        </form>
+        <a href="{{ url_for('st04.employee_list') }}" class="btn btn-secondary mt-3">Назад</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "asm2504/st12/base.html" %}
+{% block content %}
+<section class="panel">
+    <h2>{{ type_name }}: {{ obj.name }}</h2>
+    <div class="details">
+        {% for field in field_data %}
+        <div>
+            <strong>{{ field.name }}:</strong>
+            <span>{{ field.value }}</span>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="actions">
+        <a class="btn" href="{{ url_for('st0412.edit_item', item_id=item_id) }}">Изменить</a>
+        <a class="btn" href="{{ url_for('st0412.list_items') }}">К списку</a>
+    </div>
+</section>
+{% endblock %}
+

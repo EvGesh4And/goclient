@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Управление группой студентов</title>
+    <link rel="stylesheet" href="/static/asm2504/st12/css/app.css">
+</head>
+<body>
+<header class="header">
+    <div class="container">
+        <h1>Управление группой студентов</h1>
+        <nav class="nav">
+            <a href="{{ url_for('st0412.main') }}">Главная</a>
+            <a href="{{ url_for('st0412.list_items') }}">Список</a>
+            <a href="{{ url_for('st0412.add_choose') }}">Добавить</a>
+            <a href="{{ url_for('st0412.save_items') }}">Сохранить</a>
+            <a href="{{ url_for('st0412.import_data') }}">Импорт</a>
+            <a href="{{ url_for('st0412.clear_items') }}">Очистить</a>
+        </nav>
+    </div>
+    <div class="accent-bar"></div>
+</header>
+
+<main class="container">
+    {% block content %}{% endblock %}
+    <div class="spacer"></div>
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <small>© Лабораторная работа 4</small>
+    </div>
+</footer>
+
+<script src="/static/asm2504/st12/js/app.js"></script>
+</body>
+</html>

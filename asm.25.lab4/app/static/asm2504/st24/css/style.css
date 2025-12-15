@@ -1,0 +1,44 @@
+body.bg-light {
+    background-color: #f8f9fa !important;
+}
+
+.container {
+    max-width: 1200px;
+}
+
+.employee-card {
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease-in-out;
+}
+
+.employee-card:hover {
+    transform: translateY(-5px);
+}
+
+.card-body {
+    flex-grow: 1;
+}
+
+.btn-container {
+    margin-top: auto;
+}
+
+.list-group-item {
+    transition: background-color 0.2s ease;
+}
+
+.list-group-item:hover {
+    background-color: #e9ecef;
+}
+
+.card {
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.spacer {
+    height: 20px; 
+}

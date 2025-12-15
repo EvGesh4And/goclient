@@ -1,0 +1,15 @@
+{% extends "akm2501/st18/base.html" %}
+{% block content %}
+  <h2>Карточка #{{ item_id }}</h2>
+  <table border="1" cellpadding="6" cellspacing="0">
+    {% for k, v in data.items() %}
+      {% if v is not none %}
+        <tr><td>{{ k }}</td><td>{{ v }}</td></tr>
+      {% endif %}
+    {% endfor %}
+  </table>
+  <p>
+      <a href="{{ url_for('st0118.edit', item_id=item_id) }}">Изменить</a> |
+      <a href="{{ url_for('st0118.index') }}">Назад</a>
+  </p>
+{% endblock %}

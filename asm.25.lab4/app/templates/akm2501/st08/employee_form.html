@@ -1,0 +1,35 @@
+{% extends "akm2501/st08/base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<h1 class="mb-3">{{ title }}</h1>
+
+    {% if message %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ message }}
+</div>
+    {% endif %}
+
+<form method="post">
+    <div class="row g-3">
+        <div class="col-md-4">
+            <label class="form-label">Тип сотрудника</label>
+            <select class="form-select" name="type" {% if lock_type %}disabled{% endif %}>
+                <option value="0" {% if type_selected==0 %}selected{% endif %}>Junior</option>
+                <option value="1" {% if type_selected==1 %}selected{% endif %}>Middle</option>
+                <option value="2" {% if type_selected==2 %}selected{% endif %}>Senior</option>
+            </select>
+            {% if lock_type %}<input type="hidden" name="type" value="{{ type_selected }}">{% endif %}
+        </div>
+        {% for f in fields %}
+        <div class="col-md-6">
+            <label class="form-label" for="{{ f }}">{{ f }}</label>
+            <input class="form-control" name="{{ f }}" id="{{ f }}" value="{{ data.get(f,'') }}">
+        </div>
+        {% endfor %}
+    </div>
+    <div class="mt-4 d-flex gap-2">
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+        <a class="btn btn-secondary" href="{{ url_for('st0108.list_employees') }}">Отмена</a>
+    </div>
+</form>
+{% endblock %}

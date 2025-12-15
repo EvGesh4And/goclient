@@ -1,0 +1,15 @@
+{% extends "asm2504/st12/base.html" %}
+{% block content %}
+<section class="panel">
+    <div class="alert {% if 'Ошибка' in title %}alert-error{% endif %}">
+        <h2>{{ title }}</h2>
+        <p>{{ message }}</p>
+        {% if details %}
+        <p><strong>Детали:</strong> {{ details }}</p>
+        {% endif %}
+    </div>
+    <div class="actions">
+        <a class="btn" href="{{ back_url or url_for('st0412.list_items') }}">Назад</a>
+    </div>
+</section>
+{% endblock %}

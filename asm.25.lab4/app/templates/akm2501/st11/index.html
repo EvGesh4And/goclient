@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Картотека животных</title>
+</head>
+<body>
+    <h1>{{ title or "Добро пожаловать в картотеку животных" }}</h1>
+    {% if author %}
+        <h2>Автор: {{ author }}</h2>
+    {% endif %}
+
+    <nav>
+        <a href="{{ url_for('st0111.create_animal') }}">Добавить животное</a>
+        <a href="{{ url_for('st0111.show_animals') }}">Показать животных</a>
+        <a href="{{ url_for('index') }}">Вернуться на главную</a>
+    </nav>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    {% if animals %}
+        <section>
+            <h2>Текущая картотека</h2>
+            {% for animal in animals %}
+                <article>
+                    <h3>{{ animal.species }}</h3>
+                    <p>Среда обитания: {{ animal.habitat }}</p>
+                    <p>Поведение: {{ animal.behavior }}</p>
+                    {% if animal.hunting_style %}
+                        <p>Стиль охоты: {{ animal.hunting_style }}</p>
+                    {% elif animal.favorite_plant %}
+                        <p>Любимое растение: {{ animal.favorite_plant }}</p>
+                    {% endif %}
+                    <p>
+                        <a href="{{ url_for('st0111.edit_animal', animal_id=animal.id) }}">Изменить</a>
+                        |
+                        <a href="{{ url_for('st0111.delete_animal', animal_id=animal.id) }}">Удалить</a>
+                    </p>
+                </article>
+                <hr>
+            {% endfor %}
+        </section>
+    {% else %}
+        <p>Каталог пуст. Добавьте первое животное.</p>
+    {% endif %}
+</body>
+</html>

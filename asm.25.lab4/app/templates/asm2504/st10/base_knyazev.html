@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{% block title %}Список студентов, Князев В.В.{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for(blueprint_name ~ '.static', filename='styles_knyazev.css') }}">
+</head>
+<body>
+  {% include 'header_knyazev.html' %}
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+  {% include 'footer_knyazev.html' %}
+</body>
+</html>

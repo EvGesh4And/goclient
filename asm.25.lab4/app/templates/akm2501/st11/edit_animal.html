@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Редактировать животное</title>
+</head>
+<body>
+    <h1>{{ title or "Картотека животных" }}</h1>
+    {% if author %}
+        <h2>Автор: {{ author }}</h2>
+    {% endif %}
+
+    <h3>Редактировать животное</h3>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('st0111.edit_animal', animal_id=animal.id) }}">
+        <p>
+            <strong>Название:</strong><br>
+            <input type="text" name="species" value="{{ animal.species }}" required>
+        </p>
+
+        <p>
+            <strong>Среда обитания:</strong><br>
+            <input type="text" name="habitat" value="{{ animal.habitat }}" required>
+        </p>
+
+        <p>
+            <strong>Поведение:</strong><br>
+            <input type="text" name="behavior" value="{{ animal.behavior }}" required>
+        </p>
+
+        {% if animal.hunting_style is defined %}
+        <p>
+            <strong>Стиль охоты:</strong><br>
+            <input type="text" name="hunting_style" value="{{ animal.hunting_style }}">
+        </p>
+        {% endif %}
+
+        {% if animal.favorite_plant is defined %}
+        <p>
+            <strong>Любимое растение:</strong><br>
+            <input type="text" name="favorite_plant" value="{{ animal.favorite_plant }}">
+        </p>
+        {% endif %}
+
+        <button type="submit">Сохранить</button>
+    </form>
+
+    <p>
+        <a href="{{ url_for('st0111.show_animals') }}">Назад к списку</a>
+    </p>
+</body>
+</html>

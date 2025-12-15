@@ -1,0 +1,59 @@
+{% extends "akm2501/st03/base.html" %}
+
+{% block content %}
+    <h1>{% if item_id is defined %}Редактировать объект{% else %}Добавить объект{% endif %}</h1>
+    
+    <form method="POST" action="{% if item_id is defined %}{{ url_for('st0103.update_item', item_id=item_id) }}{% else %}{{ url_for('st0103.add_item') }}{% endif %}">
+        <p>
+            <label>Тип объекта:</label><br>
+            <select name="item_type" id="item_type" required onchange="showFields()" {% if item_id is defined %}disabled{% endif %}>
+                <option value="1" {% if it.type == 'Person' %}selected{% endif %}>Person (Человек)</option>
+                <option value="2" {% if it.type == 'Worker' %}selected{% endif %}>Worker (Работник)</option>
+                <option value="3" {% if it.type == 'Hobby' %}selected{% endif %}>Hobby (Увлечение)</option>
+            </select>
+            {% if item_id is defined %}<input type="hidden" name="item_type" value="{% if it.type == 'Person' %}1{% elif it.type == 'Worker' %}2{% else %}3{% endif %}">{% endif %}
+        </p>
+        
+        <p>
+            <label>Имя:</label><br>
+            <input type="text" name="name" value="{{ it.name }}" required>
+        </p>
+        
+        <p>
+            <label>Возраст:</label><br>
+            <input type="number" name="age" value="{{ it.age }}" required>
+        </p>
+        
+        <p id="occupation_field" style="display: none;">
+            <label>Род деятельности:</label><br>
+            <input type="text" name="occupation" value="{{ it.occupation if it.occupation is defined else '' }}">
+        </p>
+        
+        <p id="hobby_field" style="display: none;">
+            <label>Увлечение:</label><br>
+            <input type="text" name="hobby" value="{{ it.hobby if it.hobby is defined else '' }}">
+        </p>
+        
+        <button type="submit">{% if item_id is defined %}Обновить{% else %}Добавить{% endif %}</button>
+        <a href="{{ url_for('st0103.index') }}">Отмена</a>
+    </form>
+
+    <script>
+        function showFields() {
+            var type = document.getElementById('item_type').value;
+            
+            document.getElementById('occupation_field').style.display = 'none';
+            document.getElementById('hobby_field').style.display = 'none';
+            
+            if (type === '2') {
+                document.getElementById('occupation_field').style.display = 'block';
+            } else if (type === '3') {
+                document.getElementById('hobby_field').style.display = 'block';
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            showFields();
+        });
+    </script>
+{% endblock %}

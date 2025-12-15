@@ -1,0 +1,53 @@
+{% extends "asm2504/st03/base.html" %}
+{% block content %}
+  {% if mode == "add" %}
+    <h1 class="h3">Добавить блюдо</h1>
+  {% else %}
+    <h1 class="h3">Редактировать блюдо</h1>
+  {% endif %}
+
+  <form method="post" class="mt-3">
+    <div class="mb-3">
+      <label class="form-label">Тип блюда</label>
+      <select name="type" class="form-select" required>
+        {% for t in types %}
+          {% if entity %}
+            {% set selected = (entity.dish_type == t) %}
+          {% else %}
+            {% set selected = false %}
+          {% endif %}
+          <option value="{{ t }}" {{ "selected" if selected else "" }}>{{ t }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Название</label>
+      <input type="text" name="name" class="form-control"
+             value="{{ entity.name if entity else '' }}" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Цена (₽)</label>
+      <input type="number" step="0.01" name="price" class="form-control"
+             value="{{ entity.price if entity else '' }}" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Калорийность (ккал)</label>
+      <input type="number" step="1" name="calories" class="form-control"
+             value="{{ entity.calories if entity else '' }}" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Ингредиенты (через запятую)</label>
+      <input type="text" name="ingredients" class="form-control"
+             value="{{ entity.ingredients|join(', ') if entity and entity.ingredients else '' }}">
+    </div>
+
+    <div class="d-flex gap-2">
+      <button class="btn btn-primary" type="submit">Сохранить</button>
+      <a class="btn btn-secondary" href="{{ url_for('st03.index') }}">Отмена</a>
+    </div>
+  </form>
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends "asm2504/st26/base.html" %}
+
+{% block title %}Список студентов{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2>Список студентов</h2>
+
+        <div class="hstack pb-3">
+            <form class="px-3" method="get" action="{{ url_for('st26.add') }}">
+                <button type="submit" class="btn btn-primary">Добавить</button>
+            </form>
+
+            <form class="px-3" method="post" action="{{ url_for('st26.clear') }}" onsubmit="return confirm('Очистить список?');">
+                <button type="submit" class="btn btn-danger">Очистить список</button>
+            </form>
+
+            <form class="px-3" method="post" action="{{ url_for('st26.load') }}" onsubmit="return confirm('При импорте текущий список будет очищен!\n\nОчистить список?');">
+                <button type="submit" class="btn btn-secondary">Импортировать</button>
+            </form>
+
+            <form class="px-3" method="post" action="{{ url_for('st26.save') }}" onsubmit="">
+                <button type="submit" class="btn btn-secondary">Экспортировать</button>
+            </form>
+        </div>
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="flash mb-3" role="status" aria-live="polite">
+            <ul class="list-unstyled m-0 px-3 py-2 border border-light rounded-lg text-secondary">
+            {% for m in messages %}
+                <li class="px-0 py-2">{{ m }}</li>
+            {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        <table class="table w-100 bg-white rounded overflow-hidden shadow" role="table" aria-label="Список студентов">
+            <thead>
+                <tr>
+                    <th style="width:8%">ID</th>
+                    <th style="width:16%">Тип</th>
+                    <th>Данные</th>
+                    <th style="width:18%">Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td><strong>{{ student.id }}</strong></td>
+                    <td><span class="badge rounded-pill bg-success-subtle text-success-emphasis border border-success-subtle p-2">{{ student.__class__.__name__ }}</span></td>
+                    <td>
+                        <ul class="m-0 p-3">
+                        {% for item, value in student.output_fields().items() %}
+                            {% if item != "id" %}
+                            <li><strong>{{ item }}:</strong> {{ value if value != None else "-" }}</li>
+                            {% endif %}
+                        {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        <div class="d-flex align-items-center gap-3">
+                            <form method="get" action="{{ url_for('st26.edit', id=student.id) }}">
+                                <button type="submit" class="btn btn-info">Редактировать</button>
+                            </form>
+                            <form method="post" action="{{ url_for('st26.delete', id=student.id) }}" onsubmit="return confirm('Удалить запись #{{ i }}?');">
+                                <button type="submit" class="btn btn-danger">Удалить</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4" class="text-center p-3 text-secondary">Нет студентов</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

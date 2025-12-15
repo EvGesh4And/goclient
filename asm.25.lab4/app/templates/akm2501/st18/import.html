@@ -1,0 +1,33 @@
+{% extends "akm2501/st18/base.html" %}
+{% block content %}
+  <h2>Импорт данных (.dat → SQLite)</h2>
+
+  {# A) Загрузка файла пользователем #}
+  <section style="margin-bottom: 20px;">
+    <h3>Загрузить файл</h3>
+    <form method="post"
+          action="{{ url_for('st0118.import_from_pickle_to_sql') }}"
+          enctype="multipart/form-data">
+      <label>Выберите .dat:
+        <input type="file" name="datafile" accept=".dat" required>
+      </label>
+      <button type="submit">Импортировать из загруженного файла</button>
+    </form>
+  </section>
+
+  {# B) Импорт по пути на диске #}
+  <section style="margin-bottom: 20px;">
+    <h3>Импорт по пути</h3>
+    <form method="post" action="{{ url_for('st0118.import_from_pickle_to_sql') }}">
+      <label>Путь к .dat на диске:
+        <input type="text" name="path" placeholder="C:\path\to\data.dat" size="60">
+      </label>
+      <button type="submit">Импортировать по пути</button>
+    </form>
+  </section>
+
+
+  <p style="margin-top:24px;">
+    <a href="{{ url_for('st0118.index') }}">← Назад к списку</a>
+  </p>
+{% endblock %}

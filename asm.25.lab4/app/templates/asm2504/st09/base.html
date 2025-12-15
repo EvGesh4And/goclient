@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Картотека сотрудников{% endblock %}</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #fafafa; }
+    .container { max-width: 900px; margin: auto; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .card { border: 1px solid #ddd; padding: 12px; margin-bottom: 12px; border-radius: 6px; background: #f9f9f9; }
+    .actions a, .actions form { margin-right: 8px; display: inline-block; }
+    .flash { padding: 8px; border-radius: 4px; margin-bottom: 10px; }
+    .flash.success { background: #e6ffed; border: 1px solid #b7f2c4; }
+    .flash.error { background: #ffecec; border: 1px solid #f2b7b7; }
+    .form-row { margin-bottom: 10px; }
+    .form-row input, .form-row select { width: 100%; padding: 6px; box-sizing: border-box; }
+    .top-actions { margin-bottom: 10px; }
+    button { cursor: pointer; padding: 6px 10px; border-radius: 5px; border: 1px solid #ccc; background: #f0f0f0; }
+    button:hover { background: #e0e0e0; }
+    a { text-decoration: none; color: #0066cc; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>{% block header %}Картотека сотрудников{% endblock %}</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, msg in messages %}
+          <div class="flash {{ category }}">{{ msg }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </div>
+</body>
+</html>

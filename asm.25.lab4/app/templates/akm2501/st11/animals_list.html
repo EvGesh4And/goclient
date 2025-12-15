@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Список животных</title>
+</head>
+<body>
+    <h1>{{ title or "Картотека животных" }}</h1>
+    {% if author %}
+        <h2>Автор: {{ author }}</h2>
+    {% endif %}
+
+    <h3>Животные</h3>
+
+    <p>
+        <a href="{{ url_for('st0111.index') }}">На главную</a>
+    </p>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    {% if animals %}
+        {% for animal in animals %}
+            <div>
+                <h3>{{ animal.species }}</h3>
+                <p>Тип: 
+                    {% if animal.hunting_style %}Хищник
+                    {% elif animal.favorite_plant %}Травоядное
+                    {% else %}Обычное
+                    {% endif %}
+                </p>
+                <p>Место: {{ animal.habitat }}</p>
+                <p>
+                    <a href="{{ url_for('st0111.edit_animal', animal_id=animal.id) }}">Изменить</a> | 
+                    <a href="{{ url_for('st0111.delete_animal', animal_id=animal.id) }}">Удалить</a>
+                </p>
+                <hr>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Пока нет животных</p>
+    {% endif %}
+
+    <p>
+        <a href="{{ url_for('st0111.create_animal') }}">Добавить животное</a> | 
+        <a href="{{ url_for('st0111.dump') }}">Сохранить</a> | 
+        <a href="{{ url_for('st0111.load') }}">Загрузить</a> | 
+        <a href="{{ url_for('st0111.clear') }}">Очистить все</a>
+    </p>
+</body>
+</html>

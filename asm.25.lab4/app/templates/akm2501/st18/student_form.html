@@ -1,0 +1,10 @@
+{% extends "akm2501/st18/base.html" %}
+{% block content %}
+  <h2>Добавить студента</h2>
+  <form method="post" action="{{ action }}">
+    <label>Имя: <input type="text" name="name" required></label><br>
+    <label>Age: <input type="number" name="age" min="0" step="1"></label><br>
+    <label>Group: <input type="text" name="group_name"></label><br>
+    <button type="submit">Сохранить</button>
+  </form>
+{% endblock %}

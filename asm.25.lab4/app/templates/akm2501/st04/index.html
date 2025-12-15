@@ -1,0 +1,23 @@
+{% extends "akm2501/st04/base.html" %}
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+    <h1 class="text-center mb-4">Долгов Антон лаб 4</h1>
+    
+    <div class="list-group">
+        <a href="{{ url_for('st04.add_employee') }}" class="list-group-item list-group-item-action">Добавить Сотрудника</a>
+        <a href="{{ url_for('st04.employee_list') }}" class="list-group-item list-group-item-action">Список Сотрудников</a>
+        <a href="{{ url_for('st04.save_to_file') }}" class="list-group-item list-group-item-action">Сохранить в Файл</a>
+        <a href="{{ url_for('st04.load_from_file') }}" class="list-group-item list-group-item-action">Загрузить из Файла</a>
+        <a href="{{ url_for('st04.clear_list') }}" class="list-group-item list-group-item-action">Очистить Список</a>
+    </div>
+    
+    <div class="spacer"></div> 
+
+    {% if message %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ message }}
+        </div>
+    {% endif %}
+    
+{% endblock %}
